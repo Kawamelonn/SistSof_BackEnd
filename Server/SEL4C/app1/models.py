@@ -4,11 +4,10 @@ from django.db import models
 # Create your models here.
 
 class Entrega(models.Model):
-    #entreda_id = models.CharField(max_length=50, null=True, blank=True)
-    file_name = models.CharField(max_length=50)
+    file = models.CharField(default="", max_length=50)
 
     def __str__ (self):
-        return "{}".format(self.file_name)
+        return "{}".format(self.file)
 
 class Actividad(models.Model):
     titulo = models.CharField(default="",max_length=50)
@@ -34,7 +33,7 @@ class Progreso(models.Model):
         return "{}".format(self.usuario)
 
 class Administrador(models.Model):
-    correo = models.EmailField(default="admin@example.com", unique = True, max_length=50, verbose_name="Correo Admin")
+    correo = models.EmailField(default="admin@example.com", unique = True, max_length=50, verbose_name="Correo")
     password = models.CharField(max_length=50, unique = True, verbose_name='Contraseña')
     progreso = models.ForeignKey(Progreso, null=True, unique = True, blank=True, on_delete=models.CASCADE)
 

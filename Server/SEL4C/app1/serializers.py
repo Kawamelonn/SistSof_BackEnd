@@ -35,4 +35,4 @@ class ActividadSerializer(serializers.HyperlinkedModelSerializer):
 class EntregaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Entrega
-        fields = ['file_name']
+        fields = ['file']
