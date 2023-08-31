@@ -3,8 +3,8 @@ from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from rest_framework import permissions
 from SEL4C.app1.serializers import UserSerializer, GroupSerializer
-from .models import UserModel
-from .serializers import UserModelSerializer
+from .models import Usuario
+from .serializers import *
 
 class UserViewSet(viewsets.ModelViewSet):
     """
@@ -22,11 +22,43 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-class UserModelViewSet(viewsets.ModelViewSet):
+class AdministradorViewSet(viewsets.ModelViewSet):
     """
     API endpoint that MyModel to be viewed or edited.
     """
-    queryset = UserModel.objects.all()
-    serializer_class = UserModelSerializer
+    queryset = Administrador.objects.all()
+    serializer_class = AdministradorSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class UsuarioViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Usuario.objects.all()
+    serializer_class = UsuarioSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class ProgresoViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Progreso.objects.all()
+    serializer_class = ProgresoSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class ActividadViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Actividad.objects.all()
+    serializer_class = ActividadSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+class EntregaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Entrega.objects.all()
+    serializer_class = EntregaSerializer
     permission_classes = [permissions.IsAuthenticated]
     
