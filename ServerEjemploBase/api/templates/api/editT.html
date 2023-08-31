@@ -1,0 +1,86 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autenticación</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="{% static 'vendor/fontawesome-free/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="{% static 'css/sb-admin-2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Space Journey</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'admin-logout' %}">Log out</a>
+          </li>
+        </ul>  
+      </div>
+    </nav>
+    <section class="banner" >
+        <!-- Page Wrapper -->
+  <div id="wrapper"
+    id="content-wrapper" class="d-flex flex-column">
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+            <!-- definir un bloque para el contenido principal -->
+            <div class="col-md-auto">
+                    <br>
+                    <h1>Modificación  de profesor</h1>
+                    <br>
+                    <form method="post" action="{% url 'add_teacher' %}">
+                        {% csrf_token %}
+                        <label for="correo_escolar">Correo escolar:</label>
+                        <input type="email" name="correo_escolar" id="correo_escolar" required maxlength="50" value="{{ form.correo_escolar.value }}"><br>
+
+                        <label for="username">Nombre de usuario:</label>
+                        <input type="text" name="username" id="username" pattern="[a-zA-Z0-9._+-@]{1,150}" required maxlength="150" value="{{ form.username.value }}"><br>
+                        <small id="{{ form.username.id_for_label }}_help" class="form-text text-muted">
+                            El usuario debe cumplir con los siguientes requisitos:
+                            <ul>
+                                <li>Es obligatorio.</li>
+                                <li>No debe tener más de 150 caracteres.</li>
+                                <li>Sólo se permiten letras, dígitos y los caracteres @/./+/-/_.</li>
+                            </ul>
+                        </small>
+                        <label for="password">Contraseña:</label>
+                        <input type="password" name="password" id="password" required maxlength="50"><br>
+                            <small id="{{ form.password.id_for_label }}_help" class="form-text text-muted">
+                                La contraseña debe cumplir con los siguientes requisitos:
+                                <ul>
+                                    <li>No debe ser demasiado similar a su otra información personal.</li>
+                                    <li>Debe contener al menos 8 caracteres.</li>
+                                    <li>No puede ser una contraseña comúnmente utilizada.</li>
+                                    <li>No puede ser completamente numérica.</li>
+                                </ul>
+                            </small>
+                            <br>
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                    <br>
+                    <table>
+                      <th><a href="{% url 'admin-a_login' %}">Volver</a></th>
+                  </table>   
+            </div>
+        </div>
+        <!-- /.container-fluid -->
+    </div>
+</section>
+</body>
+</html>

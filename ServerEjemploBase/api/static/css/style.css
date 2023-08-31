@@ -1,0 +1,11 @@
+.navbar-brand{
+    color: blue !important;
+}
+.btn{
+    background-color: blue !important;
+    border-radius: 3rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    color:azure !important;
+    text-align: center;
+}
