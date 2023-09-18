@@ -51,6 +51,8 @@ urlpatterns = [
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/schema/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('SEL4C/', views.index, name = "index"),
-    path('SEL4C/dashboard/', views.dashboard, name = "dashboard"),
+    path('SEL4C/', views.home, name = "homepage"),
+    path('SEL4C/register/', views.register, name = "register"),
+    path('SEL4C/login/', views.login, name = "login"),
+    path('SEL4C/dashboard/', views.dashboard, name = "index"),
 ]

@@ -6,11 +6,17 @@ from SEL4C.app1.serializers import UserSerializer, GroupSerializer
 from .models import Usuario
 from .serializers import *
 
-def index(request):
-    return render(request, "app1/index.html")
+def home(request):
+    return render(request, "app1/homepage.html")
+
+def register(request):
+    return render(request, "app1/register.html")
+
+def login(request):
+    return render(request, "app1/login.html")
 
 def dashboard(request):
-    return render(request, "app1/dashboard.html")
+    return render(request, "app1/index.html")
 
 
 
