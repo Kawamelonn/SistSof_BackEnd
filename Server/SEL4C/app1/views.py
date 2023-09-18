@@ -6,6 +6,14 @@ from SEL4C.app1.serializers import UserSerializer, GroupSerializer
 from .models import Usuario
 from .serializers import *
 
+def index(request):
+    return render(request, "app1/index.html")
+
+def dashboard(request):
+    return render(request, "app1/dashboard.html")
+
+
+
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
