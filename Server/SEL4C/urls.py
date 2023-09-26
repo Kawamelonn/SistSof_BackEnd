@@ -31,6 +31,8 @@ router.register(r'Usuarios', views.UsuarioViewSet)
 router.register(r'Progresos', views.ProgresoViewSet)
 router.register(r'Actividades', views.ActividadViewSet)
 router.register(r'Entregas', views.EntregaViewSet)
+router.register(r'Autodiagnosticos', views.AutodiagnosticoViewSet)
+router.register(r'Preguntas', views.PreguntaViewSet)
 
 schema_view = get_schema_view(
     openapi.Info(

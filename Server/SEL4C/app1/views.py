@@ -75,4 +75,21 @@ class EntregaViewSet(viewsets.ModelViewSet):
     queryset = Entrega.objects.all()
     serializer_class = EntregaSerializer
     permission_classes = [permissions.IsAuthenticated]
+
+class PreguntaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Pregunta.objects.all()
+    serializer_class = PreguntaSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+
+class AutodiagnosticoViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Autodiagnostico.objects.all()
+    serializer_class = AutodiagnosticoSerializer
+    permission_classes = [permissions.IsAuthenticated]
     

@@ -20,19 +20,30 @@ class AdministradorSerializer(serializers.HyperlinkedModelSerializer):
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['username', 'password']
+        fields = ['nombre', 'genero', 'correo', 'username', 'password']
 
 class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Progreso
-        fields = ['usuario', 'actividad']
+        fields = ['usuario', 'autodiagnostico', 'actividad']
 
 class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Actividad
-        fields = ['titulo', 'descripcion', 'entrega', 'tokens']
+        fields = ['titulo', 'descripcion', 'entrega']
 
 class EntregaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Entrega
-        fields = ['file']
+        fields = ['filename', 'file']
+
+class PreguntaSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Pregunta
+        fields = ['pregunta']
+
+
+class AutodiagnosticoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Autodiagnostico
+        fields = ['num_auto', 'usuario', 'pregunta', 'index']
