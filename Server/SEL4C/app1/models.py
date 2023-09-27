@@ -17,14 +17,20 @@ class Actividad(models.Model):
         return "{}".format(self.titulo)
 
 class Usuario(models.Model):
+    OPCIONES_GENERO = [
+        ('Sin_especificar', 'Prefiero no decir'),
+        ('Masculino', 'Masculino'),
+        ('Femenino', 'Femenino'),
+        ('No_binario', 'No binario'),
+    ]
     nombre = models.CharField(max_length=50, null=True, blank=True, unique=True, verbose_name='Nombre Completo')
-    genero = models.CharField(max_length=50, null=True, blank=True, verbose_name='Género')
+    genero = models.CharField(max_length=25,choices=OPCIONES_GENERO,default='Sin_especificar', verbose_name='Género')
     correo = models.CharField(max_length=50, null=True, blank=True, verbose_name='Correo')
     username = models.CharField(max_length=50, null=True, blank=True, verbose_name='Nombre de Usuario')
     password = models.CharField(max_length=50, null=True, blank=True, unique = True, verbose_name='Contraseña')
 
     def __str__ (self):
-        return "{}".format(self.username)
+        return "{}".format(self.nombre)
 
 class Pregunta(models.Model):
     pregunta = models.CharField(max_length=300, null=True, blank=True, unique=True, verbose_name='Pregunta')

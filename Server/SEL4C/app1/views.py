@@ -18,6 +18,11 @@ def login(request):
 def dashboard(request):
     return render(request, "app1/index.html")
 
+def usersList(request):
+    users = list(Usuario.objects.all())
+    ctx = {'users': users}
+    return render(request, "app1/users-list.html", ctx)
+
 
 
 class UserViewSet(viewsets.ModelViewSet):

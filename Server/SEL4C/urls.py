@@ -57,4 +57,5 @@ urlpatterns = [
     path('SEL4C/register/', views.register, name = "register"),
     path('SEL4C/login/', views.login, name = "login"),
     path('SEL4C/dashboard/', views.dashboard, name = "index"),
+    path('SEL4C/dashboard/usuarios', views.usersList, name = "users-list"),
 ]
