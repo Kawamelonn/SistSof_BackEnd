@@ -1,6 +1,7 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
+from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions
 from SEL4C.app1.serializers import UserSerializer, GroupSerializer
 from .models import Usuario
