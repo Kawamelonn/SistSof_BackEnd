@@ -24,6 +24,9 @@ def usersList(request):
     ctx = {'users': users}
     return render(request, "app1/users-list.html", ctx)
 
+def buttons(request):
+    return render(request, "app1/ui-buttons.html")
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
