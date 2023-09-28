@@ -35,7 +35,6 @@ class UserViewSet(viewsets.ModelViewSet):
     """
     queryset  = User.objects.all().order_by('-date_joined')
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class GroupViewSet(viewsets.ModelViewSet):
     """
@@ -43,7 +42,6 @@ class GroupViewSet(viewsets.ModelViewSet):
     """
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class AdministradorViewSet(viewsets.ModelViewSet):
     """
@@ -51,7 +49,6 @@ class AdministradorViewSet(viewsets.ModelViewSet):
     """
     queryset = Administrador.objects.all()
     serializer_class = AdministradorSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class UsuarioViewSet(viewsets.ModelViewSet):
     """
@@ -59,7 +56,6 @@ class UsuarioViewSet(viewsets.ModelViewSet):
     """
     queryset = Usuario.objects.all()
     serializer_class = UsuarioSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class ProgresoViewSet(viewsets.ModelViewSet):
     """
@@ -67,7 +63,6 @@ class ProgresoViewSet(viewsets.ModelViewSet):
     """
     queryset = Progreso.objects.all()
     serializer_class = ProgresoSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class ActividadViewSet(viewsets.ModelViewSet):
     """
@@ -75,7 +70,6 @@ class ActividadViewSet(viewsets.ModelViewSet):
     """
     queryset = Actividad.objects.all()
     serializer_class = ActividadSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class EntregaViewSet(viewsets.ModelViewSet):
     """
@@ -83,7 +77,6 @@ class EntregaViewSet(viewsets.ModelViewSet):
     """
     queryset = Entrega.objects.all()
     serializer_class = EntregaSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 class PreguntaViewSet(viewsets.ModelViewSet):
     """
@@ -91,7 +84,6 @@ class PreguntaViewSet(viewsets.ModelViewSet):
     """
     queryset = Pregunta.objects.all()
     serializer_class = PreguntaSerializer
-    permission_classes = [permissions.IsAuthenticated]
 
 
 class AutodiagnosticoViewSet(viewsets.ModelViewSet):
@@ -100,5 +92,4 @@ class AutodiagnosticoViewSet(viewsets.ModelViewSet):
     """
     queryset = Autodiagnostico.objects.all()
     serializer_class = AutodiagnosticoSerializer
-    permission_classes = [permissions.IsAuthenticated]
     
