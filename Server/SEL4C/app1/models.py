@@ -32,6 +32,7 @@ class Usuario(models.Model):
         return "{}".format(self.nombre)
 
 class Pregunta(models.Model):
+    tipo_pregunta = models.CharField(max_length=300, null=True, blank=True, unique=True, verbose_name='TipoPregunta')
     pregunta = models.CharField(max_length=300, null=True, blank=True, unique=True, verbose_name='Pregunta')
 
     def __str__ (self):
