@@ -27,6 +27,9 @@ def usersList(request):
 def buttons(request):
     return render(request, "app1/ui-buttons.html")
 
+def cards(request):
+    return render(request, "app1/ui-card.html")
+
 
 
 class UserViewSet(viewsets.ModelViewSet):
