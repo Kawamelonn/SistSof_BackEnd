@@ -92,4 +92,10 @@ class AutodiagnosticoViewSet(viewsets.ModelViewSet):
     """
     queryset = Autodiagnostico.objects.all()
     serializer_class = AutodiagnosticoSerializer
-    
+
+class RespuestaViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Respuesta.objects.all()
+    serializer_class = RespuestaSerializer

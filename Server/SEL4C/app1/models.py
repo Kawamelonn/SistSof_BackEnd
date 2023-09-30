@@ -10,7 +10,6 @@ class Entrega(models.Model):
 
 class Actividad(models.Model):
     titulo = models.CharField(default="",max_length=50)
-    descripcion = models.CharField(default="", max_length=350)
     entrega = models.ForeignKey(Entrega, null=True, unique = True, blank=True, on_delete=models.CASCADE)
 
     def __str__ (self):
@@ -38,11 +37,18 @@ class Pregunta(models.Model):
     def __str__ (self):
         return "{}".format(self.pregunta)
     
+class Respuesta(models.Model):
+    respuesta = models.PositiveIntegerField(default=1)
+
+    def __str__(self) -> str:
+        return "{}".format(self.respuesta)
+    
+    
 class Autodiagnostico(models.Model):
     num_auto = models.PositiveIntegerField(default=0, verbose_name='Número de Autodiagnóstico')
     usuario = models.ForeignKey(Usuario, null=True, unique = True, blank=True, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(Pregunta, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    index = models.PositiveIntegerField(default=0, verbose_name='Index')
+    respuesta = models.ForeignKey(Respuesta, null=True, unique = True, blank=True, on_delete=models.CASCADE )
 
 
 class Progreso(models.Model):
@@ -60,3 +66,4 @@ class Administrador(models.Model):
 
     def __str__ (self):
         return "{}".format(self.correo)
+

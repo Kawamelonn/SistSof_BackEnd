@@ -30,7 +30,7 @@ class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
 class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Actividad
-        fields = ['titulo', 'descripcion', 'entrega']
+        fields = ['titulo', 'entrega']
 
 class EntregaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -47,3 +47,8 @@ class AutodiagnosticoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Autodiagnostico
         fields = ['num_auto', 'usuario', 'pregunta', 'index']
+
+class RespuestaSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Respuesta
+        fiels = ['respuesta']
