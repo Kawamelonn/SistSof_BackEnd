@@ -59,6 +59,7 @@ urlpatterns = [
     path('SEL4C/login/', views.login, name = "login"),
     path('SEL4C/dashboard/', views.dashboard, name = "index"),
     path('SEL4C/dashboard/usuarios', views.usersList, name = "users-list"),
+    path('SEL4C/dashboard/usuario/<int:pk>', views.userDetails, name = "user-details"),
     path('SEL4C/dashboard/botones', views.buttons, name = "buttons"),
     path('SEL4C/dashboard/cards', views.cards, name = "cards"),
 ]

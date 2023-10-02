@@ -24,6 +24,11 @@ def usersList(request):
     ctx = {'users': users}
     return render(request, "app1/users-list.html", ctx)
 
+def userDetails(request, pk):
+    usuario = Usuario.objects.get(id = pk)
+    ctx = {'usuario':usuario}
+    return render(request, "app1/user-details.html", ctx)
+
 def buttons(request):
     return render(request, "app1/ui-buttons.html")
 

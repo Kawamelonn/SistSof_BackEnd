@@ -235,11 +235,11 @@
                         </td>
                         <td class="border-bottom-0">
                           <div class="d-flex align-items-center gap-2">
-                            <button type="button" class="btn btn-outline-success m-1">Ver</button>
+                            <a href = "{% url 'user-details' pk=item.id %}" class="btn btn-outline-success m-1">Ver</a>
                           </div>
                         </td>
                         <td class="border-bottom-0">
-                          <button type="button" class="btn btn-outline-danger m-1">Eliminar</button>
+                          <a href = "#" class="btn btn-outline-danger m-1">Eliminar</a>
                         </td>
                       </tr> 
                       {% endfor %}                 
