@@ -58,6 +58,20 @@ class AdministradorViewSet(viewsets.ModelViewSet):
     queryset = Administrador.objects.all()
     serializer_class = AdministradorSerializer
 
+class PaisViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Pais.objects.all()
+    serializer_class = PaisSerializer
+
+class InstitucionViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that MyModel to be viewed or edited.
+    """
+    queryset = Institucion.objects.all()
+    serializer_class = InstitucionSerializer
+
 class UsuarioViewSet(viewsets.ModelViewSet):
     """
     API endpoint that MyModel to be viewed or edited.

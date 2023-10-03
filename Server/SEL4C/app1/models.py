@@ -24,6 +24,9 @@ class Institucion(models.Model):
 class Pais(models.Model):
     nombre = models.CharField(max_length=100, null=True, blank=True, unique=True, verbose_name='País')
 
+    def __str__ (self):
+        return "{}".format(self.nombre)
+
 class Usuario(models.Model):
     OPCIONES_GENERO = [
         ('Sin_especificar', 'Prefiero no decir'),
