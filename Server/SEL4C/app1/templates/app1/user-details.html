@@ -202,264 +202,450 @@
         </header>
         <!--  Header End -->
         <div class="container-fluid">
-            <h2>Datos del Usuario</h2>
-        <br>
-        <div class="row">
-          <div class="col-sm-6 col-xl-3">
-            <div class="card">
+          <!------------------------------------------ DATOS DEL USUARIO ---------------------------------------->
+          <h2>Datos del Usuario</h2>
+          <br>
+          <div class="row">
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
+                  <div class="card-body pt-3 p-4">
+                  <h5 class="card-title">Nombre Completo</h5>
+                  <p class="card-text">{{usuario.nombre}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
                 <div class="card-body pt-3 p-4">
-                <h5 class="card-title">Nombre Completo</h5>
-                <p class="card-text">{{usuario.nombre}}</p>
+                  <h5 class="card-title">Género</h5>
+                  <p class="card-text">{{usuario.genero}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
+                <div class="card-body pt-3 p-4">
+                  <h5 class="card-title">Correo</h5>
+                  <p class="card-text">{{usuario.correo}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
+                <div class="card-body pt-3 p-4">
+                  <h5 class="card-title">Nombre de Usuario</h5>
+                  <p class="card-text">{{usuario.username}}</p>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-sm-6 col-xl-3">
+          <div class="row">
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
+                <div class="card-body pt-3 p-4">
+                  <h5 class="card-title">Grado Académico</h5>
+                  <p class="card-text">{{usuario.grado}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
+                <div class="card-body pt-3 p-4">
+                  <h5 class="card-title">Institución</h5>
+                  <p class="card-text">{{usuario.institucion}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
+                <div class="card-body pt-3 p-4">
+                  <h5 class="card-title">País</h5>
+                  <p class="card-text">{{usuario.pais}}</p>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xl-3">
+              <div class="card">
+                <div class="card-body pt-3 p-4">
+                  <h5 class="card-title">Disciplina de interés</h5>
+                  <p class="card-text">{{usuario.disciplina}}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <!------------------------------------------ DESEMPEÑO AUTODIAGNÓSTICO INICIAL ---------------------------------------->
+          <h2>Desempeño Autodiagnóstico Inicial</h2>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Autocontrol</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Liderazgo</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Conciencia y valor social</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Innovación social y sostenibilidad financiera</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!---------------------------------- RESPUESTAS POR PREGUNTA AUTODIAGNÓSTICO INICIAL----------------------------->
             <div class="card">
-              <div class="card-body pt-3 p-4">
-                <h5 class="card-title">Género</h5>
-                <p class="card-text">{{usuario.genero}}</p>
+              <div class="card-body">
+                <h4 class="card-title fw-semibold mb-4">Respuestas por Pregunta</h4>
+                <div class="table-responsive">
+                  <table class="table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                      <tr>
+                        <th class="border-bottom-0">
+                          <h5 class="fw-semibold mb-0">Pregunta</h5>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h5 class="fw-semibold mb-0">Respuesta</h5>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for item in questions %}
+                      <tr>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-1">{{item.pregunta}}</h6>
+                          <span class="fw-normal">{{item.tipo_pregunta}}</span>                          
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger rounded-3 fw-semibold">High</span>
+                          </div>
+                        </td>
+                      </tr>
+                      {% endfor %}                 
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="card">
-              <div class="card-body pt-3 p-4">
-                <h5 class="card-title">Correo</h5>
-                <p class="card-text">{{usuario.correo}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="card">
-              <div class="card-body pt-3 p-4">
-                <h5 class="card-title">Nombre de Usuario</h5>
-                <p class="card-text">{{usuario.username}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-sm-6 col-xl-3">
-            <div class="card">
-              <div class="card-body pt-3 p-4">
-                <h5 class="card-title">Grado Académico</h5>
-                <p class="card-text">{{usuario.grado}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="card">
-              <div class="card-body pt-3 p-4">
-                <h5 class="card-title">Institución</h5>
-                <p class="card-text">{{usuario.institucion}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="card">
-              <div class="card-body pt-3 p-4">
-                <h5 class="card-title">País</h5>
-                <p class="card-text">{{usuario.pais}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-sm-6 col-xl-3">
-            <div class="card">
-              <div class="card-body pt-3 p-4">
-                <h5 class="card-title">Disciplina de interés</h5>
-                <p class="card-text">{{usuario.disciplina}}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h2>Desempeño Autodiagnóstico Inicial</h2>
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Autocontrol</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
+          <br>
+          <br>
+          <br>
+          <br>
+          <h2>Desempeño Autodiagnóstico Final</h2>
+          <div class="row">
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Autocontrol</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
                     </div>
                   </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Liderazgo</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Conciencia y valor social</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-4">
+              <div class="card overflow-hidden">
+                <div class="card-body p-4">
+                  <h5 class="card-title mb-9 fw-semibold">Innovación social y sostenibilidad financiera</h5>
+                  <div class="row align-items-center">
+                    <div class="col-8">
+                      <h4 class="fw-semibold mb-3">Puntos</h4>
+                      <div class="d-flex align-items-center mb-3">
+                        <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
+                        <p class="fs-3 mb-0">#</p>
+                      </div>
+                    </div>
+                    <div class="col-4">
+                      <div class="d-flex justify-content-center">
+                        <div id="breakup"></div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Liderazgo</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Conciencia y valor social</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Innovación social y sostenibilidad financiera</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <h2>Desempeño Autodiagnóstico Final</h2>
-        <div class="row">
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Autocontrol</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Liderazgo</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Conciencia y valor social</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4">
-            <div class="card overflow-hidden">
-              <div class="card-body p-4">
-                <h5 class="card-title mb-9 fw-semibold">Innovación social y sostenibilidad financiera</h5>
-                <div class="row align-items-center">
-                  <div class="col-8">
-                    <h4 class="fw-semibold mb-3">Puntos</h4>
-                    <div class="d-flex align-items-center mb-3">
-                      <p class="text-dark me-1 fs-3 mb-0">Total Posibles:</p>
-                      <p class="fs-3 mb-0">#</p>
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="d-flex justify-content-center">
-                      <div id="breakup"></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-8 d-flex align-items-strech">
-          <div class="card w-100">
+          <div class="card">
             <div class="card-body">
-              <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
-                <div class="mb-3 mb-sm-0">
-                  <h5 class="card-title fw-semibold">Comparativa entre Autodiagnósticos</h5>
+              <h4 class="card-title fw-semibold mb-4">Respuestas por Pregunta</h4>
+              <div class="table-responsive">
+                <table class="table text-nowrap mb-0 align-middle">
+                  <thead class="text-dark fs-4">
+                    <tr>
+                      <th class="border-bottom-0">
+                        <h5 class="fw-semibold mb-0">Pregunta</h5>
+                      </th>
+                      <th class="border-bottom-0">
+                        <h5 class="fw-semibold mb-0">Respuesta</h5>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for item in questions %}
+                    <tr>
+                      <td class="border-bottom-0">
+                        <h6 class="fw-semibold mb-1">{{item.pregunta}}</h6>
+                        <span class="fw-normal">{{item.tipo_pregunta}}</span>                          
+                      </td>
+                      <td class="border-bottom-0">
+                        <div class="d-flex align-items-center gap-2">
+                          <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}                 
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <!------------------------------ COMPARATIVA ENTRE AUTODIAGNÓSTICOS (GRÁFICA)------------------------------------>
+          <div class="col-lg-8 d-flex align-items-strech">
+            <div class="card w-100">
+              <div class="card-body">
+                <div class="d-sm-flex d-block align-items-center justify-content-between mb-9">
+                  <div class="mb-3 mb-sm-0">
+                    <h5 class="card-title fw-semibold">Comparativa entre Autodiagnósticos</h5>
+                  </div>
+                </div>
+                <div id="chart"></div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <br>
+          <!------------------------------------- TABLA DE PROGRESO DEL USUARIO ----------------------------------------->
+          <h2>Progreso</h2>
+          <div class="col-lg-8 d-flex align-items-stretch">
+            <div class="card w-100">
+              <div class="card-body p-4">
+                <div class="table-responsive">
+                  <table class="table text-nowrap mb-0 align-middle">
+                    <thead class="text-dark fs-4">
+                      <tr>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Id</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Assigned</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Name</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Priority</h6>
+                        </th>
+                        <th class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0">Budget</h6>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">1</h6></td>
+                        <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-1">Sunil Joshi</h6>
+                            <span class="fw-normal">Web Designer</span>                          
+                        </td>
+                        <td class="border-bottom-0">
+                          <p class="mb-0 fw-normal">Elite Admin</p>
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary rounded-3 fw-semibold">Low</span>
+                          </div>
+                        </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0 fs-4">$3.9</h6>
+                        </td>
+                      </tr> 
+                      <tr>
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">2</h6></td>
+                        <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-1">Andrew McDownland</h6>
+                            <span class="fw-normal">Project Manager</span>                          
+                        </td>
+                        <td class="border-bottom-0">
+                          <p class="mb-0 fw-normal">Real Homes WP Theme</p>
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-secondary rounded-3 fw-semibold">Medium</span>
+                          </div>
+                        </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0 fs-4">$24.5k</h6>
+                        </td>
+                      </tr> 
+                      <tr>
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">3</h6></td>
+                        <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-1">Christopher Jamil</h6>
+                            <span class="fw-normal">Project Manager</span>                          
+                        </td>
+                        <td class="border-bottom-0">
+                          <p class="mb-0 fw-normal">MedicalPro WP Theme</p>
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-danger rounded-3 fw-semibold">High</span>
+                          </div>
+                        </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0 fs-4">$12.8k</h6>
+                        </td>
+                      </tr>      
+                      <tr>
+                        <td class="border-bottom-0"><h6 class="fw-semibold mb-0">4</h6></td>
+                        <td class="border-bottom-0">
+                            <h6 class="fw-semibold mb-1">Nirav Joshi</h6>
+                            <span class="fw-normal">Frontend Engineer</span>                          
+                        </td>
+                        <td class="border-bottom-0">
+                          <p class="mb-0 fw-normal">Hosting Press HTML</p>
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
+                          </div>
+                        </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0 fs-4">$2.4k</h6>
+                        </td>
+                      </tr>                       
+                    </tbody>
+                  </table>
                 </div>
               </div>
-              <div id="chart"></div>
             </div>
           </div>
         </div>
-        <h2>Progeso</h2>
-    </div>
     <script src="{% static 'assets/libs/jquery/dist/jquery.min.js' %}"></script>
     <script src="{% static 'assets/libs/bootstrap/dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'assets/js/sidebarmenu.js' %}"></script>

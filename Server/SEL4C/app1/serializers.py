@@ -50,7 +50,7 @@ class EntregaSerializer(serializers.HyperlinkedModelSerializer):
 class PreguntaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Pregunta
-        fields = ['tipo_pregunta', 'pregunta']
+        fields = ['id', 'tipo_pregunta', 'pregunta']
 
 class RespuestaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

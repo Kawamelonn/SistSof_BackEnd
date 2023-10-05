@@ -26,7 +26,8 @@ def usersList(request):
 
 def userDetails(request, pk):
     usuario = Usuario.objects.get(id = pk)
-    ctx = {'usuario':usuario}
+    questions = list(Pregunta.objects.all())
+    ctx = {'usuario':usuario, 'questions':questions}
     return render(request, "app1/user-details.html", ctx)
 
 def buttons(request):

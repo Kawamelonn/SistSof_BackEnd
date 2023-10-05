@@ -61,7 +61,7 @@ class Usuario(models.Model):
         return "{}".format(self.nombre)
 
 class Pregunta(models.Model):
-    tipo_pregunta = models.CharField(max_length=300, null=True, blank=True, unique=True, verbose_name='Tipo Pregunta')
+    tipo_pregunta = models.CharField(max_length=300, null=True, blank=True, verbose_name='Tipo Pregunta')
     pregunta = models.CharField(max_length=300, null=True, blank=True, unique=True, verbose_name='Pregunta')
 
     def __str__ (self):
@@ -76,9 +76,9 @@ class Respuesta(models.Model):
     
 class Autodiagnostico(models.Model):
     num_auto = models.PositiveIntegerField(default=0, verbose_name='Número de Autodiagnóstico')
-    usuario = models.ForeignKey(Usuario, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    pregunta = models.ForeignKey(Pregunta, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    respuesta = models.ForeignKey(Respuesta, null=True, unique = True, blank=True, on_delete=models.CASCADE )
+    usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE)
+    pregunta = models.ForeignKey(Pregunta, null=True, blank=True, on_delete=models.CASCADE)
+    respuesta = models.ForeignKey(Respuesta, null=True, blank=True, on_delete=models.CASCADE )
 
 
 class Progreso(models.Model):
