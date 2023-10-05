@@ -363,43 +363,6 @@
               </div>
             </div>
           </div>
-          <!---------------------------------- RESPUESTAS POR PREGUNTA AUTODIAGNÓSTICO INICIAL----------------------------->
-            <div class="card">
-              <div class="card-body">
-                <h4 class="card-title fw-semibold mb-4">Respuestas por Pregunta</h4>
-                <div class="table-responsive">
-                  <table class="table text-nowrap mb-0 align-middle">
-                    <thead class="text-dark fs-4">
-                      <tr>
-                        <th class="border-bottom-0">
-                          <h5 class="fw-semibold mb-0">Pregunta</h5>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h5 class="fw-semibold mb-0">Respuesta</h5>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for item in questions %}
-                      <tr>
-                        <td class="border-bottom-0">
-                          <h6 class="fw-semibold mb-1">{{item.pregunta}}</h6>
-                          <span class="fw-normal">{{item.tipo_pregunta}}</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <span class="badge bg-danger rounded-3 fw-semibold">High</span>
-                          </div>
-                        </td>
-                      </tr>
-                      {% endfor %}                 
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          <br>
-          <br>
           <br>
           <br>
           <h2>Desempeño Autodiagnóstico Final</h2>
@@ -489,42 +452,44 @@
               </div>
             </div>
           </div>
+          <br>
           <div class="card">
             <div class="card-body">
-              <h4 class="card-title fw-semibold mb-4">Respuestas por Pregunta</h4>
+              <h2>Respuestas por Pregunta</h2>
               <div class="table-responsive">
-                <table class="table text-nowrap mb-0 align-middle">
-                  <thead class="text-dark fs-4">
-                    <tr>
-                      <th class="border-bottom-0">
-                        <h5 class="fw-semibold mb-0">Pregunta</h5>
-                      </th>
-                      <th class="border-bottom-0">
-                        <h5 class="fw-semibold mb-0">Respuesta</h5>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {% for item in questions %}
-                    <tr>
-                      <td class="border-bottom-0">
-                        <h6 class="fw-semibold mb-1">{{item.pregunta}}</h6>
-                        <span class="fw-normal">{{item.tipo_pregunta}}</span>                          
-                      </td>
-                      <td class="border-bottom-0">
-                        <div class="d-flex align-items-center gap-2">
-                          <span class="badge bg-success rounded-3 fw-semibold">Critical</span>
-                        </div>
-                      </td>
-                    </tr>
-                    {% endfor %}                 
-                  </tbody>
-                </table>
-              </div>
-            </div>
+                  <table class="table text-nowrap mb-0 align-middle">
+                      <thead class="text-dark fs-4">
+                          <tr>
+                              <th class="border-bottom-0">
+                                  <h5 class="fw-semibold mb-0">Pregunta</h5>
+                              </th>
+                              <th class="border-bottom-0">
+                                  <h5 class="fw-semibold mb-0">Inicial / Final</h5>
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          {% for question in questions %}
+                              <tr>
+                                  <td class="border-bottom-0">
+                                      <h6 class="fw-semibold mb-1">{{ question.pregunta }}</h6>
+                                      <span class="fw-normal">{{ question.tipo_pregunta }}</span>
+                                  </td>
+                                  <td class="border-bottom-0">
+                                      <div class="d-flex align-items-center gap-2">
+                                          {% for autodiagnostico in autodiagnosticos %}
+                                              {% if autodiagnostico.pregunta == question %}
+                                                  <span class="badge bg-success rounded-3 fw-semibold">{{ autodiagnostico.respuesta.respuesta }}</span>
+                                              {% endif %}
+                                          {% endfor %}
+                                      </div>
+                                  </td>
+                              </tr>
+                          {% endfor %}
+                      </tbody>
+                  </table>
+              </div>            
           </div>
-          <br>
-          <br>
           <!------------------------------ COMPARATIVA ENTRE AUTODIAGNÓSTICOS (GRÁFICA)------------------------------------>
           <div class="col-lg-8 d-flex align-items-strech">
             <div class="card w-100">

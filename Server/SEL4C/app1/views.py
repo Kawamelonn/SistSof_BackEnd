@@ -27,7 +27,8 @@ def usersList(request):
 def userDetails(request, pk):
     usuario = Usuario.objects.get(id = pk)
     questions = list(Pregunta.objects.all())
-    ctx = {'usuario':usuario, 'questions':questions}
+    autodiagnosticos = list(Autodiagnostico.objects.filter(usuario=usuario))
+    ctx = {'usuario':usuario, 'questions':questions, 'autodiagnosticos':autodiagnosticos}
     return render(request, "app1/user-details.html", ctx)
 
 def buttons(request):
