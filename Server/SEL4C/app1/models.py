@@ -10,7 +10,6 @@ class Entrega(models.Model):
 
 class Actividad(models.Model):
     titulo = models.CharField(default="",max_length=50)
-    entrega = models.ForeignKey(Entrega, null=True, unique = True, blank=True, on_delete=models.CASCADE)
 
     def __str__ (self):
         return "{}".format(self.titulo)
@@ -83,8 +82,9 @@ class Autodiagnostico(models.Model):
 
 class Progreso(models.Model):
     usuario = models.ForeignKey(Usuario, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    autodiagnostico = models.ForeignKey(Autodiagnostico, null=True, unique = True, blank=True, on_delete=models.CASCADE)
     actividad = models.ForeignKey(Actividad, null=True, unique = True, blank=True, on_delete=models.CASCADE)
+    entrega = models.ForeignKey(Entrega, null=True, unique = True, blank=True, on_delete=models.CASCADE)
+    completado = models.BooleanField(default=False, verbose_name='¿Completado?')
 
     def __str__ (self):
         return "{}".format(self.usuario)
@@ -92,7 +92,6 @@ class Progreso(models.Model):
 class Administrador(models.Model):
     correo = models.EmailField(default="admin@example.com", unique = True, max_length=50, verbose_name="Correo")
     password = models.CharField(max_length=50, unique = True, verbose_name='Contraseña')
-    progreso = models.ForeignKey(Progreso, null=True, unique = True, blank=True, on_delete=models.CASCADE)
 
     def __str__ (self):
         return "{}".format(self.correo)
