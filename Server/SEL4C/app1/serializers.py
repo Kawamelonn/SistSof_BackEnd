@@ -17,14 +17,13 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class AdministradorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Administrador
-        fields = ['correo', 'password', 'progreso']
+        fields = ['correo', 'password']
     
     def create(self, validated_data):
         password = h.sha256(validated_data['password'].encode()).hexdigest()
         adminstrador_instance = Administrador.objects.create(
             correo=validated_data['correo'],
             password = password,
-            progreso=validated_data['progreso'],
         )
         return adminstrador_instance
 
@@ -46,12 +45,12 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
 class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Progreso
-        fields = ['usuario', 'autodiagnostico', 'actividad']
+        fields = ['usuario', 'actividad', 'entrega', 'completado']
 
 class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Actividad
-        fields = ['titulo', 'entrega']
+        fields = ['titulo']
 
 class EntregaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
