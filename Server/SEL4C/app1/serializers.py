@@ -35,12 +35,20 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
 class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Progreso
+<<<<<<< Updated upstream
         fields = ['usuario', 'actividad']
+=======
+<<<<<<< Updated upstream
+        fields = ['usuario', 'autodiagnostico', 'actividad']
+=======
+        fields = ['usuario', 'actividad', 'entrega', 'completado']
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Actividad
-        fields = ['titulo', 'entrega']
+        fields = ['id', 'titulo']
 
 class EntregaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
