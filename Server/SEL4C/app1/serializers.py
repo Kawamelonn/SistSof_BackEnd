@@ -50,7 +50,7 @@ class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
 class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Actividad
-        fields = ['titulo']
+        fields = ['id', 'titulo']
 
 class EntregaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
