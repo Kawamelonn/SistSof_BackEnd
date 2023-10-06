@@ -83,7 +83,6 @@ class Autodiagnostico(models.Model):
 
 class Progreso(models.Model):
     usuario = models.ForeignKey(Usuario, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    autodiagnostico = models.ForeignKey(Autodiagnostico, null=True, unique = True, blank=True, on_delete=models.CASCADE)
     actividad = models.ForeignKey(Actividad, null=True, unique = True, blank=True, on_delete=models.CASCADE)
 
     def __str__ (self):

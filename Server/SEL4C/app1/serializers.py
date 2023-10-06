@@ -35,7 +35,7 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
 class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Progreso
-        fields = ['usuario', 'autodiagnostico', 'actividad']
+        fields = ['usuario', 'actividad']
 
 class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
