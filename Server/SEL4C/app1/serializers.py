@@ -1,8 +1,6 @@
 from django.contrib.auth.models import User, Group
-from django.contrib.auth.models import make_password
 from rest_framework import serializers
 from .models import *
-import hashlib as h
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -18,20 +16,21 @@ class AdministradorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Administrador
         fields = ['correo', 'password', 'progreso']
-    
-    def create(self, validated_data):
-        password = h.sha256(validated_data['password'].encode()).hexdigest()
-        adminstrador_instance = Administrador.objects.create(
-            correo=validated_data['correo'],
-            password = password,
-            progreso=validated_data['progreso'],
-        )
-        return adminstrador_instance
+
+class InstitucionSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Institucion
+        fields = ['nombre']
+
+class PaisSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Pais
+        fields = ['nombre']
 
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Usuario
-        fields = ['nombre', 'genero', 'correo', 'username', 'password']
+        fields = ['id', 'nombre', 'grado', 'disciplina', 'pais', 'institucion', 'genero', 'correo', 'username', 'password']
 
 class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -51,15 +50,15 @@ class EntregaSerializer(serializers.HyperlinkedModelSerializer):
 class PreguntaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Pregunta
-        fields = ['pregunta']
-
-
-class AutodiagnosticoSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = Autodiagnostico
-        fields = ['num_auto', 'usuario', 'pregunta', 'index']
+        fields = ['id', 'tipo_pregunta', 'pregunta']
 
 class RespuestaSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Respuesta
-        fiels = ['respuesta']
+        fields = ['respuesta']
+
+class AutodiagnosticoSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = Autodiagnostico
+        fields = ['num_auto', 'usuario', 'pregunta', 'respuesta']
+
