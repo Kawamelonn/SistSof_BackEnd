@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import make_password
 from rest_framework import serializers
 from .models import *
+import hashlib as h
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -16,6 +18,15 @@ class AdministradorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Administrador
         fields = ['correo', 'password', 'progreso']
+    
+    def create(self, validated_data):
+        password = h.sha256(validated_data['password'].encode()).hexdigest()
+        adminstrador_instance = Administrador.objects.create(
+            correo=validated_data['correo'],
+            password = password,
+            progreso=validated_data['progreso'],
+        )
+        return adminstrador_instance
 
 class InstitucionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

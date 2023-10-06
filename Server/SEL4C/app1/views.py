@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
@@ -6,6 +6,14 @@ from rest_framework import permissions
 from SEL4C.app1.serializers import UserSerializer, GroupSerializer
 from .models import Usuario
 from .serializers import *
+import requests
+from django.contrib import messages
+from django.urls import reverse
+import json
+from django.contrib.auth.decorators import login_required
+from django.http import HttpResponseForbidden
+import hashlib as h
+from django.contrib.auth import authenticate, login, logout
 
 def home(request):
     return render(request, "app1/homepage.html")
@@ -13,17 +21,42 @@ def home(request):
 def register(request):
     return render(request, "app1/register.html")
 
-def login(request):
+def login_view(request):
+    if request.method == 'POST':
+        print("entre al if")
+        email = request.POST.get('correo','').strip()
+        password = request.POST.get('password','').strip()
+        h_password = h.sha256(password.encode()).hexdigest()
+        print(email)
+        print(h_password)
+
+        user = authenticate(request, email=email, password=h_password)
+        print("Aqui estoy", user)
+
+        if user is not None:
+            login(request, user)
+            return redirect('index')
+        else:
+            messages.error(request, 'Correo o contraseña inválidos')
+    
     return render(request, "app1/login.html")
 
+@login_required(login_url='login')
+def logout_view(request):
+    logout(request)
+    return redirect('http://localhost:8000/SEL4C/')
+
+@login_required(login_url='login')
 def dashboard(request):
     return render(request, "app1/index.html")
 
+@login_required(login_url='login')
 def usersList(request):
     users = list(Usuario.objects.all())
     ctx = {'users': users}
     return render(request, "app1/users-list.html", ctx)
 
+@login_required(login_url='login')
 def userDetails(request, pk):
     usuario = Usuario.objects.get(id = pk)
     questions = list(Pregunta.objects.all())
@@ -31,9 +64,11 @@ def userDetails(request, pk):
     ctx = {'usuario':usuario, 'questions':questions, 'autodiagnosticos':autodiagnosticos}
     return render(request, "app1/user-details.html", ctx)
 
+@login_required(login_url='login')
 def buttons(request):
     return render(request, "app1/ui-buttons.html")
 
+@login_required(login_url='login')
 def cards(request):
     return render(request, "app1/ui-card.html")
 
