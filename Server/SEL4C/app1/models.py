@@ -32,7 +32,6 @@ class Usuario(models.Model):
         ('Masculino', 'Masculino'),
         ('Femenino', 'Femenino'),
         ('No_binario', 'No binario'),
-        ('Otro', 'Otro'),
     ]
     OPCIONES_GRADO = [
         ('Pregrado', 'Pregrado(licenciatura, profesional, universidad, grado)'),
