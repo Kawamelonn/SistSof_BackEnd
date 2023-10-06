@@ -1,6 +1,8 @@
 from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import make_password
 from rest_framework import serializers
 from .models import *
+import hashlib as h
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -15,7 +17,15 @@ class GroupSerializer(serializers.HyperlinkedModelSerializer):
 class AdministradorSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Administrador
-        fields = ['correo', 'password', 'progreso']
+        fields = ['correo', 'password']
+    
+    def create(self, validated_data):
+        password = h.sha256(validated_data['password'].encode()).hexdigest()
+        adminstrador_instance = Administrador.objects.create(
+            correo=validated_data['correo'],
+            password = password,
+        )
+        return adminstrador_instance
 
 class InstitucionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -35,15 +45,7 @@ class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
 class ProgresoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Progreso
-<<<<<<< Updated upstream
-        fields = ['usuario', 'actividad']
-=======
-<<<<<<< Updated upstream
-        fields = ['usuario', 'autodiagnostico', 'actividad']
-=======
         fields = ['usuario', 'actividad', 'entrega', 'completado']
->>>>>>> Stashed changes
->>>>>>> Stashed changes
 
 class ActividadSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
