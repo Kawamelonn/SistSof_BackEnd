@@ -4,7 +4,7 @@ from SEL4C.app1 import views
 
 urlpatterns = [
     path('', views.home, name = "homepage"),
-    path('register/', views.register, name = "register"),
+    #path('register/', views.register, name = "register"),
     path('login/', views.login_view, name = "login"),
     path('logout/', views.logout_view, name="logout"),
     path('instituciones/', views.institute_view, name="institutions"),

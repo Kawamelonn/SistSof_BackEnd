@@ -14,12 +14,30 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 import hashlib as h
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
 
 def home(request):
     return render(request, "app1/homepage.html")
 
-def register(request):
-    return render(request, "app1/register.html")
+@csrf_exempt
+def register_user(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre','').strip()
+        grado = request.POST.get('grado','')
+        disciplina = request.POST.get('disciplina','').strip()
+        pais = request.POST.get('pais','').strip()
+        genero = request.POST.get('genero','').strip()
+        correo = request.POST.get('correo','').strip()
+        username = request.POST.get('username','').strip()
+        password = request.POST.get('password', '').strip()
+
+        try:
+            user = Usuario.objects.create_user(nombre=nombre, grado=grado, disciplina=disciplina, pais=pais, genero=genero, correo=correo, username=username, password=password)
+            return JsonResponse({'message':'Usuario creado exitosamente'})
+        except Exception as e:
+            return JsonResponse({'message':'No se pudo crear el usuario'})
+
+    return JsonResponse({'message':'El registro requiere una POST request'})
 
 def login_view(request):
     if request.method == 'POST':
