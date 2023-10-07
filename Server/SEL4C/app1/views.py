@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
@@ -81,13 +81,27 @@ def register_institution(request):
 
         try:
             institution = Institucion.objects.create(nombre=nombre)
-            messages.success(request, 'Institución registrada con exito')
+            messages.success(request, 'Institución registrada con éxito')
         except Exception as e:
             messages.error(request, 'No fue posible registrar la institución' + str(e))
         
-        return redirect('register-institution')
+        return redirect('institutions')
 
     return render(request, "app1/register-institutions.html")
+
+@login_required(login_url='login')
+def delete_institution(request, id):
+    institution = get_object_or_404(Institucion, pk=id)
+    print(institution)
+
+    if request.method == 'POST':
+        try:
+            institution.delete()
+            messages.success(request, 'Institucion borrada con éxito')
+        except Exception as e:
+            messages.error(request, 'No fue posible borrar la institución' + str(e))
+    
+    return redirect('institutions')
 
 class UserViewSet(viewsets.ModelViewSet):
     """
