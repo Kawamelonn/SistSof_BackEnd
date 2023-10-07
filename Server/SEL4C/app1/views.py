@@ -4,7 +4,7 @@ from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions
 from SEL4C.app1.serializers import UserSerializer, GroupSerializer
-from .models import Usuario
+from .models import *
 from .serializers import *
 import requests
 from django.contrib import messages
@@ -23,15 +23,11 @@ def register(request):
 
 def login_view(request):
     if request.method == 'POST':
-        print("entre al if")
         email = request.POST.get('correo','').strip()
         password = request.POST.get('password','').strip()
         h_password = h.sha256(password.encode()).hexdigest()
-        print(email)
-        print(h_password)
 
         user = authenticate(request, email=email, password=h_password)
-        print("Aqui estoy", user)
 
         if user is not None:
             login(request, user)
@@ -72,7 +68,26 @@ def buttons(request):
 def cards(request):
     return render(request, "app1/ui-card.html")
 
+@login_required(login_url='login')
+def institute_view(request):
+    institutes = list(Institucion.objects.all())
+    ctx = {'Instituciones': institutes}
+    return render(request, "app1/institutions.html", ctx)
 
+@login_required(login_url='login')
+def register_institution(request):
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+
+        try:
+            institution = Institucion.objects.create(nombre=nombre)
+            messages.success(request, 'Institución registrada con exito')
+        except Exception as e:
+            messages.error(request, 'No fue posible registrar la institución' + str(e))
+        
+        return redirect('register-institution')
+
+    return render(request, "app1/register-institutions.html")
 
 class UserViewSet(viewsets.ModelViewSet):
     """
