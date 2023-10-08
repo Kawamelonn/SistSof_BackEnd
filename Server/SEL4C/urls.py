@@ -59,7 +59,6 @@ urlpatterns = [
     path('api/schema/swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/schema/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('SEL4C/', include('SEL4C.app1.urls')),
-    path('obtener-usuario/<int:pk>', views.obtener_nombre_usuario, name= 'obtener_nombre_usuario'),
-    path('cac/<int:usuario_id>/<int:actividad_id>/', views.ComprobarActividadCompletada.as_view({'get': 'get'}), name='comprobar_actividad_completada'),
+    path('cac/<int:usuario_id>/', views.ComprobarActividadCompletada.as_view({'get': 'get'}), name='comprobar_actividad_completada'),
 
 ]

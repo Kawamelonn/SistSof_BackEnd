@@ -80,15 +80,6 @@ def userDetails(request, pk):
     ctx = {'usuario':usuario, 'questions':questions, 'autodiagnosticos':autodiagnosticos}
     return render(request, "app1/user-details.html", ctx)
 
-def obtener_nombre_usuario(request, pk):
-    try:
-        user = Usuario.objects.get(id=pk)
-        username = user.username
-        return JsonResponse({'message':'El registro requiere una POST request'})
-    except User.DoesNotExist:
-        # Manejar el caso en el que el usuario no existe
-        return JsonResponse({'message':'Usuario no encontrado'})
-
 @login_required(login_url='login')
 def buttons(request):
     return render(request, "app1/ui-buttons.html")
@@ -218,12 +209,27 @@ class RespuestaViewSet(viewsets.ModelViewSet):
     serializer_class = RespuestaSerializer
 
 class ComprobarActividadCompletada(viewsets.ModelViewSet):
-    def get(self, request, usuario_id, actividad_id):
+    def get(self, request, usuario_id):
         try:
             usuario = Usuario.objects.get(id=usuario_id)
-            actividad = Actividad.objects.get(id=actividad_id)
-            completado = Progreso.objects.filter(usuario=usuario, actividad=actividad).exists()
+            #actividad = Actividad.objects.get(id=actividad_id)
+            actividades = Actividad.objects.all()
+            completado = Progreso.objects.filter(usuario=usuario).exists()
+            data = {'id_actividad': actividades,
+                'completado': completado,}
             
-            return Response({'completado': completado})
+            completado_por_actividad = []
+            
+            for actividad in actividades:
+                completado = Progreso.objects.filter(usuario=usuario, actividad=actividad).exists()
+                actividad_json = {
+                    "id": actividad.id,
+                    "completado": completado
+                }
+                completado_por_actividad.append(actividad_json)
+
+            return JsonResponse(completado_por_actividad, safe=False)
+        
         except Usuario.DoesNotExist or Actividad.DoesNotExist:
             return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
+
