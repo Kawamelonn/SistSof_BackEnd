@@ -51,10 +51,10 @@ class Usuario(models.Model):
     grado = models.CharField(max_length=60,choices=OPCIONES_GRADO,default='Pregrado', verbose_name='Grado de Estudiso')
     disciplina = models.CharField(max_length=60,choices=OPCIONES_DISCIPLINA,default='Ingeniería y Ciencias', verbose_name='Disciplina de Interés')
     pais = models.ForeignKey(Pais, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    institucion = models.ForeignKey(Institucion, null=True, unique = True, blank=True, on_delete=models.CASCADE)
+    institucion = models.ForeignKey(Institucion, null=True, blank=True, on_delete=models.CASCADE)
     correo = models.CharField(max_length=50, null=True, blank=True, verbose_name='Correo')
     username = models.CharField(max_length=50, null=True, blank=True, verbose_name='Nombre de Usuario')
-    password = models.CharField(max_length=50, null=True, blank=True, unique = True, verbose_name='Contraseña')
+    password = models.CharField(max_length=50, null=True, blank=True, verbose_name='Contraseña')
 
     def __str__ (self):
         return "{}".format(self.nombre)

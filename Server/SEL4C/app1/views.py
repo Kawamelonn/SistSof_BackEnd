@@ -141,6 +141,7 @@ class ImportarDatosCSV(View):
             return JsonResponse({'error': 'El archivo CSV no fue encontrado'}, status=400)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
+        
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

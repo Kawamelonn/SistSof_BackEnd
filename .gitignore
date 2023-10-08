@@ -162,3 +162,5 @@ cython_debug/
 *.sqlite3
 
 newenv/
+
+__pycache__
