@@ -13,6 +13,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name = "index"),
     path('usuarios', views.usersList, name = "users-list"),
     path('dashboard/usuario/<int:pk>', views.userDetails, name = "user-details"),
+    path('obtener-usuario/<int:pk>', views.obtener_nombre_usuario, name= 'obtener_nombre_usuario'),
     path('dashboard/botones', views.buttons, name = "buttons"),
     path('dashboard/cards', views.cards, name = "cards"),
 ]

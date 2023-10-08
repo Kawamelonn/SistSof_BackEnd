@@ -15,6 +15,7 @@ from django.http import HttpResponseForbidden
 import hashlib as h
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from rest_framework.response import Response
 
 def home(request):
     return render(request, "app1/homepage.html")
@@ -38,6 +39,7 @@ def register_user(request):
             return JsonResponse({'message':'No se pudo crear el usuario'})
 
     return JsonResponse({'message':'El registro requiere una POST request'})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -77,6 +79,15 @@ def userDetails(request, pk):
     autodiagnosticos = list(Autodiagnostico.objects.filter(usuario=usuario))
     ctx = {'usuario':usuario, 'questions':questions, 'autodiagnosticos':autodiagnosticos}
     return render(request, "app1/user-details.html", ctx)
+
+def obtener_nombre_usuario(request, pk):
+    try:
+        user = Usuario.objects.get(id=pk)
+        username = user.username
+        return JsonResponse({'message':'El registro requiere una POST request'})
+    except User.DoesNotExist:
+        # Manejar el caso en el que el usuario no existe
+        return JsonResponse({'message':'Usuario no encontrado'})
 
 @login_required(login_url='login')
 def buttons(request):
@@ -205,3 +216,14 @@ class RespuestaViewSet(viewsets.ModelViewSet):
     """
     queryset = Respuesta.objects.all()
     serializer_class = RespuestaSerializer
+
+class ComprobarActividadCompletada(viewsets.ModelViewSet):
+    def get(self, request, usuario_id, actividad_id):
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+            actividad = Actividad.objects.get(id=actividad_id)
+            completado = Progreso.objects.filter(usuario=usuario, actividad=actividad).exists()
+            
+            return Response({'completado': completado})
+        except Usuario.DoesNotExist or Actividad.DoesNotExist:
+            return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
