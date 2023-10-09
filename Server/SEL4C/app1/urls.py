@@ -1,6 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from SEL4C.app1 import views
+from SEL4C.app1.views import ImportarDatosCSV
 
 urlpatterns = [
     path('', views.home, name = "homepage"),
@@ -15,4 +16,5 @@ urlpatterns = [
     path('dashboard/usuario/<int:pk>', views.userDetails, name = "user-details"),
     path('dashboard/botones', views.buttons, name = "buttons"),
     path('dashboard/cards', views.cards, name = "cards"),
+    path('importar-datos-csv/', ImportarDatosCSV.as_view(), name='importar_datos_csv'), # esta es la url para importarle los datos solo que tiene que ser por POSTMAN
 ]

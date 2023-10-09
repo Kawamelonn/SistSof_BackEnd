@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
+import csv
+from django.http import JsonResponse
+from django.views import View
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions
 from SEL4C.app1.serializers import UserSerializer, GroupSerializer
 from .models import *
 from .serializers import *
-import requests
+from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.urls import reverse
-import json
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 import hashlib as h
@@ -123,6 +125,25 @@ def delete_institution(request, id):
     
     return redirect('institutions')
 
+# Esta  es la funcion para que lea el archivo 
+@method_decorator(csrf_exempt, name='dispatch')
+class ImportarDatosCSV(View):
+    def post(self, request):
+        ruta_archivo_csv = request.POST.get('ruta_archivo_csv', '')
+        if not ruta_archivo_csv:
+            return JsonResponse({'error': 'Ruta del archivo CSV no proporcionada'}, status=400)
+        try:
+            with open(ruta_archivo_csv, 'r', encoding='latin-1') as archivo_csv:
+                csv_reader = csv.DictReader(archivo_csv)
+                for row in csv_reader:
+                    nombre_pais = row['nombre']
+                    Pais.objects.get_or_create(nombre=nombre_pais)
+            return JsonResponse({'message': 'Importación exitosa'})
+        except FileNotFoundError:
+            return JsonResponse({'error': 'El archivo CSV no fue encontrado'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+        
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.

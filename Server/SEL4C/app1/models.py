@@ -81,9 +81,11 @@ class Autodiagnostico(models.Model):
 
 
 class Progreso(models.Model):
+
     usuario = models.ForeignKey(Usuario, null=True, unique = False, blank=True, on_delete=models.CASCADE)
     actividad = models.ForeignKey(Actividad, null=True, unique = False, blank=True, on_delete=models.CASCADE)
     entrega = models.ForeignKey(Entrega, null=True, unique = True, blank=True, on_delete=models.CASCADE)
+
     completado = models.BooleanField(default=False, verbose_name='¿Completado?')
 
     def __str__ (self):
