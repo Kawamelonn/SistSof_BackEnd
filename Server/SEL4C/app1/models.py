@@ -77,7 +77,8 @@ class Autodiagnostico(models.Model):
     num_auto = models.PositiveIntegerField(default=0, verbose_name='Número de Autodiagnóstico')
     usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(Pregunta, null=True, blank=True, on_delete=models.CASCADE)
-    respuesta = models.ForeignKey(Respuesta, null=True, blank=True, on_delete=models.CASCADE )
+    respuesta = models.ForeignKey(Respuesta, null=True, blank=True, on_delete=models.CASCADE)
+    completada = models.BooleanField(default=False)
 
 
 class Progreso(models.Model):

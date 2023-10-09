@@ -70,5 +70,5 @@ class RespuestaSerializer(serializers.HyperlinkedModelSerializer):
 class AutodiagnosticoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Autodiagnostico
-        fields = ['num_auto', 'usuario', 'pregunta', 'respuesta']
+        fields = ['num_auto', 'usuario', 'pregunta', 'respuesta', 'completada']
 
