@@ -20,6 +20,8 @@ import hashlib as h
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from rest_framework.response import Response
+from django.conf import settings
+import json
 
 def home(request):
     return render(request, "app1/homepage.html")
@@ -43,6 +45,27 @@ def register_user(request):
             return JsonResponse({'message':'No se pudo crear el usuario'})
 
     return JsonResponse({'message':'El registro requiere una POST request'})
+
+@csrf_exempt
+def user_login_view(request):
+    original_auth_backends = settings.AUTHENTICATION_BACKENDS
+    settings.AUTHENTICATION_BACKENDS = ['SEL4C.app1.backends.CustomUserBackend']
+
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        username = data.get('username','').strip()
+        password = data.get('password','').strip()
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            return JsonResponse({'message':'Usuario autenticado exitosamente'})
+        else:
+            return JsonResponse({'message':'Usuario o contraseña inválidos'})
+        
+    settings.AUTHENTICATION_BACKENDS = original_auth_backends
+
+    return JsonResponse({'message':'El login requiere una POST request'})
 
 
 def login_view(request):
