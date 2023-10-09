@@ -17,6 +17,7 @@ from django.http import HttpResponseForbidden
 import hashlib as h
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from rest_framework.response import Response
 
 def home(request):
     return render(request, "app1/homepage.html")
@@ -40,6 +41,7 @@ def register_user(request):
             return JsonResponse({'message':'No se pudo crear el usuario'})
 
     return JsonResponse({'message':'El registro requiere una POST request'})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -226,3 +228,29 @@ class RespuestaViewSet(viewsets.ModelViewSet):
     """
     queryset = Respuesta.objects.all()
     serializer_class = RespuestaSerializer
+
+class ComprobarActividadCompletada(viewsets.ModelViewSet):
+    def get(self, request, usuario_id):
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+            #actividad = Actividad.objects.get(id=actividad_id)
+            actividades = Actividad.objects.all()
+            completado = Progreso.objects.filter(usuario=usuario).exists()
+            data = {'id_actividad': actividades,
+                'completado': completado,}
+            
+            completado_por_actividad = []
+            
+            for actividad in actividades:
+                completado = Progreso.objects.filter(usuario=usuario, actividad=actividad).exists()
+                actividad_json = {
+                    "id": actividad.id,
+                    "completado": completado
+                }
+                completado_por_actividad.append(actividad_json)
+
+            return JsonResponse(completado_por_actividad, safe=False)
+        
+        except Usuario.DoesNotExist or Actividad.DoesNotExist:
+            return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
+
