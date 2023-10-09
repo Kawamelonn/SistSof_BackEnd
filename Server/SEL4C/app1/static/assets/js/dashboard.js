@@ -5,7 +5,7 @@ $(function () {
   // Profit
   // =====================================
 
-  fetch('http://127.0.0.1:8000/SEL4C/api/subcompetencias/')
+  fetch('http://127.0.0.1:8000/SEL4C/api/subcompetencias/') //funcion para jalar los datos 
     .then(response => {
       if(!response.ok){
         throw new Error('Network response was not ok');
