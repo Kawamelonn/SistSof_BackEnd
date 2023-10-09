@@ -1,13 +1,6 @@
 from django.db import models
 # Create your models here.
 
-class Entrega(models.Model):
-    filename = models.CharField(max_length=50, null=True, blank=True, verbose_name='Título')
-    file = models.CharField(max_length=50, null=True, blank=True, verbose_name='Archivo')
-
-    def __str__ (self):
-        return "{}".format(self.filename)
-
 class Actividad(models.Model):
     titulo = models.CharField(default="",max_length=50)
 
@@ -74,10 +67,17 @@ class Respuesta(models.Model):
     
     
 class Autodiagnostico(models.Model):
+    OPCIONES_COMPETENCIA = [
+        ('Autocontrol', 'Autocontrol'),
+        ('Liderazgo', 'Liderazgo'),
+        ('Conciencia y valor social', 'Conciencia y valor social'),
+        ('Innovación social y sostenibilidad financiera', 'Innovación social y sostenibilidad financiera'),
+    ]
     num_auto = models.PositiveIntegerField(default=0, verbose_name='Número de Autodiagnóstico')
     usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(Pregunta, null=True, blank=True, on_delete=models.CASCADE)
     respuesta = models.ForeignKey(Respuesta, null=True, blank=True, on_delete=models.CASCADE)
+    competencia = models.CharField(max_length=60,choices=OPCIONES_COMPETENCIA, default='Autocontrol', verbose_name='Competencia que evalúa')
     completada = models.BooleanField(default=False)
 
 
@@ -85,8 +85,8 @@ class Progreso(models.Model):
 
     usuario = models.ForeignKey(Usuario, null=True, unique = False, blank=True, on_delete=models.CASCADE)
     actividad = models.ForeignKey(Actividad, null=True, unique = False, blank=True, on_delete=models.CASCADE)
-    entrega = models.ForeignKey(Entrega, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-
+    filename = models.CharField(max_length=50, null=True, blank=True, verbose_name='Título')
+    file = models.CharField(max_length=50, null=True, blank=True, verbose_name='Archivo')
     completado = models.BooleanField(default=False, verbose_name='¿Completado?')
 
     def __str__ (self):

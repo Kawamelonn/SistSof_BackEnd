@@ -25,6 +25,7 @@ from django.http import JsonResponse
 from rest_framework.response import Response
 from django.conf import settings
 import json
+from django.db.models import Sum
 
 def home(request):
     return render(request, "app1/homepage.html")
@@ -104,10 +105,44 @@ def usersList(request):
 
 @login_required(login_url='login')
 def userDetails(request, pk):
-    usuario = Usuario.objects.get(id = pk)
+    usuario = Usuario.objects.get(id=pk)
     questions = list(Pregunta.objects.all())
-    autodiagnosticos = list(Autodiagnostico.objects.filter(usuario=usuario))
-    ctx = {'usuario':usuario, 'questions':questions, 'autodiagnosticos':autodiagnosticos}
+    autodiagnosticos = Autodiagnostico.objects.filter(usuario=usuario)
+    # AUTODIAGNOSTICO INICIAL
+    autoIniAuto = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Autocontrol')
+    autoIniLider = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Liderazgo')
+    autoIniCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Conciencia y valor social')
+    autoIniInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Innovación social y sostenibilidad financiera')
+    # Suma las respuestas de la competencia "Autocontrol" para el usuario
+    suma_autocontrolini = autoIniAuto.aggregate(total_autocontrolini=Sum('respuesta__respuesta'))['total_autocontrolini'] or 0
+    suma_liderazgoini = autoIniLider.aggregate(total_liderazgoini=Sum('respuesta__respuesta'))['total_liderazgoini'] or 0
+    suma_concienciaini = autoIniCon.aggregate(total_concienciaini=Sum('respuesta__respuesta'))['total_concienciaini'] or 0
+    suma_innovacionini = autoIniInn.aggregate(total_innovacionini=Sum('respuesta__respuesta'))['total_innovacionini'] or 0
+    # AUTODIAGNOSTICO FINAL
+    autoFinAuto = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Autocontrol')
+    autoFinLider = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Liderazgo')
+    autoFinCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Conciencia y valor social')
+    autoFinInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Innovación social y sostenibilidad financiera')
+    # Suma las respuestas de la competencia "Autocontrol" para el usuario
+    suma_autocontrolfin = autoFinAuto.aggregate(total_autocontrolfin=Sum('respuesta__respuesta'))['total_autocontrolfin'] or 0
+    suma_liderazgofin = autoFinLider.aggregate(total_liderazgofin=Sum('respuesta__respuesta'))['total_liderazgofin'] or 0
+    suma_concienciafin = autoFinCon.aggregate(total_concienciafin=Sum('respuesta__respuesta'))['total_concienciafin'] or 0
+    suma_innovacionfin = autoFinInn.aggregate(total_innovacionfin=Sum('respuesta__respuesta'))['total_innovacionfin'] or 0
+    
+    ctx = {
+        'usuario': usuario,
+        'questions': questions,
+        'autodiagnosticos': autodiagnosticos,
+        'suma_autocontrolini': suma_autocontrolini,
+        'suma_liderazgoini': suma_liderazgoini,
+        'suma_concienciaini': suma_concienciaini,
+        'suma_innovacionini': suma_innovacionini,
+        'suma_autocontrolfin': suma_autocontrolfin,
+        'suma_liderazgofin': suma_liderazgofin,
+        'suma_concienciafin': suma_concienciafin,
+        'suma_innovacionfin': suma_innovacionfin,
+    }
+    
     return render(request, "app1/user-details.html", ctx)
 
 @login_required(login_url='login')
@@ -292,13 +327,6 @@ class ActividadViewSet(viewsets.ModelViewSet):
     """
     queryset = Actividad.objects.all()
     serializer_class = ActividadSerializer
-
-class EntregaViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that MyModel to be viewed or edited.
-    """
-    queryset = Entrega.objects.all()
-    serializer_class = EntregaSerializer
 
 class PreguntaViewSet(viewsets.ModelViewSet):
     """
