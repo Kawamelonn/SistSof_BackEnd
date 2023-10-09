@@ -64,7 +64,7 @@ def user_login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            api_url = 'http://localhost:8000/Usuarios/'
+            api_url = f'http://localhost:8000/Usuarios/?username={username}'
             response = requests.get(api_url)
 
             if response.status_code == 200:
