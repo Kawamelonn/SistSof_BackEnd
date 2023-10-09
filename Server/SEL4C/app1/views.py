@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
 import csv
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
 from django.http import JsonResponse
 from django.views import View
+from django.db.models import Count, Q
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
-from rest_framework import permissions
 from SEL4C.app1.serializers import UserSerializer, GroupSerializer
 from .models import *
 from .serializers import *
@@ -141,6 +144,38 @@ class ImportarDatosCSV(View):
             return JsonResponse({'error': 'El archivo CSV no fue encontrado'}, status=400)
         except Exception as e:
             return JsonResponse({'error': str(e)}, status=500)
+        
+class SubcompetenciasAPI(APIView):
+    def get(self, request, format=None):
+        # Calcular el conteo de respuestas para cada subcompetencia
+        autocontrol_count = Autodiagnostico.objects.filter(
+            Q(pregunta__id__range=(1, 4)) & Q(respuesta__id__in=[4, 5])
+        ).values('usuario__id').annotate(conteo=Count('usuario__id')).filter(conteo__gte=2).count()
+
+        liderazgo_count = Autodiagnostico.objects.filter(
+            Q(pregunta__id__range=(5, 10)) & Q(respuesta__id__in=[4, 5])
+        ).values('usuario__id').annotate(conteo=Count('usuario__id')).filter(conteo__gte=4).count()
+
+        conciencia_valor_social_count = Autodiagnostico.objects.filter(
+            (Q(pregunta__id__range=(11, 17)) | Q(pregunta__id__range=(18, 24))) & Q(respuesta__id__in=[4, 5])
+        ).values('usuario__id').annotate(conteo=Count('usuario__id')).filter(conteo__gte=4).count()
+
+        innovacion_social_count = Autodiagnostico.objects.filter(
+            Q(pregunta__id__range=(18,24)) & Q(respuesta__id__in=[4,5])
+        ).values('usuario__id').annotate(conteo=Count('usuario__id')).filter(conteo__gte=4).count()
+
+        # Construir la respuesta con los conteos de cada subcompetencia
+        response_data = {
+            'autocontrol': autocontrol_count,
+            'liderazgo': liderazgo_count,
+            'conciencia_valor_social': conciencia_valor_social_count,
+            'innovacion_social': innovacion_social_count
+        }
+
+        return Response(response_data, status=status.HTTP_200_OK)
+    
+
+    
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
