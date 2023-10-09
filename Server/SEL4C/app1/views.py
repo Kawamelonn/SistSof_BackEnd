@@ -64,20 +64,20 @@ def user_login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            api_url = f'http://localhost:8000/Usuarios/?username={username}'
+            api_url = f'http://localhost:8000/Usuarios/{user.id}/'
+            print(api_url)
             response = requests.get(api_url)
 
             if response.status_code == 200:
                 api_data = response.json()
-                results = api_data.get('results', [])
+                api_id = api_data.get('id', None)
 
-                if results:
-                    id_from_api = results[0].get('id', None)
-                    return JsonResponse({'message':'Usuario logueado exitosamente', 'id':id_from_api})
+                if api_id:
+                    return JsonResponse({'message':'Usuario logueado exitosamente', 'id':api_id})
                 else:
-                    return JsonResponse({'message':'Usuario o contraseña inválidos'})
+                    return JsonResponse({'message':'No iD'})
             else:
-                return JsonResponse({'message':'Usuario o contraseña inválidos'})
+                return JsonResponse({'message':'No error 200'})
         else:
             return JsonResponse({'message':'Usuario o contraseña inválidos'})
         
