@@ -30,12 +30,12 @@ class AdministradorSerializer(serializers.HyperlinkedModelSerializer):
 class InstitucionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Institucion
-        fields = ['nombre']
+        fields = ['id', 'nombre']
 
 class PaisSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Pais
-        fields = ['nombre']
+        fields = ['id', 'nombre']
 
 class UsuarioSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
@@ -70,5 +70,5 @@ class RespuestaSerializer(serializers.HyperlinkedModelSerializer):
 class AutodiagnosticoSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Autodiagnostico
-        fields = ['num_auto', 'usuario', 'pregunta', 'respuesta']
+        fields = ['num_auto', 'usuario', 'pregunta', 'respuesta', 'completada']
 

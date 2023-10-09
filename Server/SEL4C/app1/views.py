@@ -15,11 +15,16 @@ from .serializers import *
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.urls import reverse
+import json
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 import hashlib as h
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
+from rest_framework.response import Response
+from django.conf import settings
+import json
 
 def home(request):
     return render(request, "app1/homepage.html")
@@ -43,6 +48,28 @@ def register_user(request):
             return JsonResponse({'message':'No se pudo crear el usuario'})
 
     return JsonResponse({'message':'El registro requiere una POST request'})
+
+@csrf_exempt
+def user_login_view(request):
+    original_auth_backends = settings.AUTHENTICATION_BACKENDS
+    settings.AUTHENTICATION_BACKENDS = ['SEL4C.app1.backends.CustomUserBackend']
+
+    if request.method == 'POST':
+        data = json.loads(request.body.decode('utf-8'))
+        username = data.get('username','').strip()
+        password = data.get('password','').strip()
+
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            return JsonResponse({'message':'Usuario autenticado exitosamente'})
+        else:
+            return JsonResponse({'message':'Usuario o contraseña inválidos'})
+        
+    settings.AUTHENTICATION_BACKENDS = original_auth_backends
+
+    return JsonResponse({'message':'El login requiere una POST request'})
+
 
 def login_view(request):
     if request.method == 'POST':
@@ -90,6 +117,41 @@ def buttons(request):
 @login_required(login_url='login')
 def cards(request):
     return render(request, "app1/ui-card.html")
+
+# Función de prueba POST para crear usuarios desde la app con país e institución 
+@csrf_exempt
+def crearUsuarioApp(request):
+    if request.method == 'POST':
+        # Obtener los datos JSON del cuerpo de la solicitud
+        data = json.loads(request.body)
+        
+        pais_id = data.get('pais')
+        institucion_id = data.get('institucion')
+        
+        try:
+            pais = Pais.objects.get(id=pais_id)
+            institucion = Institucion.objects.get(id=institucion_id)
+            
+            # Crear un nuevo usuario con la institución relacionada
+            usuario = Usuario(
+                nombre=data.get('nombre'),
+                genero=data.get('genero'),
+                grado=data.get('grado'),
+                disciplina=data.get('disciplina'),
+                pais=pais,
+                institucion=institucion,
+                correo=data.get('correo'),
+                username=data.get('username'),
+                password=data.get('password')
+            )
+            
+            usuario.save()
+            
+            return JsonResponse({'mensaje': 'Usuario creado exitosamente'})
+        except Institucion.DoesNotExist:
+            return JsonResponse({'error': 'La institución con el ID proporcionado no existe'}, status=400)
+    else:
+        return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
 
 @login_required(login_url='login')
 def institute_view(request):
@@ -175,7 +237,6 @@ class SubcompetenciasAPI(APIView):
         return Response(response_data, status=status.HTTP_200_OK)
     
 
-    
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -260,3 +321,29 @@ class RespuestaViewSet(viewsets.ModelViewSet):
     """
     queryset = Respuesta.objects.all()
     serializer_class = RespuestaSerializer
+
+class ComprobarActividadCompletada(viewsets.ModelViewSet):
+    def get(self, request, usuario_id):
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+            #actividad = Actividad.objects.get(id=actividad_id)
+            actividades = Actividad.objects.all()
+            completado = Progreso.objects.filter(usuario=usuario).exists()
+            data = {'id_actividad': actividades,
+                'completado': completado,}
+            
+            completado_por_actividad = []
+            
+            for actividad in actividades:
+                completado = Progreso.objects.filter(usuario=usuario, actividad=actividad).exists()
+                actividad_json = {
+                    "id": actividad.id,
+                    "completado": completado
+                }
+                completado_por_actividad.append(actividad_json)
+
+            return JsonResponse(completado_por_actividad, safe=False)
+        
+        except Usuario.DoesNotExist or Actividad.DoesNotExist:
+            return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
+

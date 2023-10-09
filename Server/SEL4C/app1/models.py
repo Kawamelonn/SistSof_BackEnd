@@ -50,11 +50,11 @@ class Usuario(models.Model):
     genero = models.CharField(max_length=50,choices=OPCIONES_GENERO,default='Sin_especificar', verbose_name='Género')
     grado = models.CharField(max_length=60,choices=OPCIONES_GRADO,default='Pregrado', verbose_name='Grado de Estudiso')
     disciplina = models.CharField(max_length=60,choices=OPCIONES_DISCIPLINA,default='Ingeniería y Ciencias', verbose_name='Disciplina de Interés')
-    pais = models.ForeignKey(Pais, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    institucion = models.ForeignKey(Institucion, null=True, unique = True, blank=True, on_delete=models.CASCADE)
-    correo = models.CharField(max_length=50, null=True, blank=True, verbose_name='Correo')
-    username = models.CharField(max_length=50, null=True, blank=True, verbose_name='Nombre de Usuario')
-    password = models.CharField(max_length=50, null=True, blank=True, unique = True, verbose_name='Contraseña')
+    pais = models.ForeignKey(Pais, null=True, blank=True, on_delete=models.CASCADE)
+    institucion = models.ForeignKey(Institucion, null=True, blank=True, on_delete=models.CASCADE)
+    correo = models.CharField(max_length=50, null=True, unique=True, blank=True, verbose_name='Correo')
+    username = models.CharField(max_length=50, null=True, unique=True, blank=True, verbose_name='Nombre de Usuario')
+    password = models.CharField(max_length=50, null=True, blank=True, verbose_name='Contraseña')
 
     def __str__ (self):
         return "{}".format(self.nombre)
@@ -77,13 +77,16 @@ class Autodiagnostico(models.Model):
     num_auto = models.PositiveIntegerField(default=0, verbose_name='Número de Autodiagnóstico')
     usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE)
     pregunta = models.ForeignKey(Pregunta, null=True, blank=True, on_delete=models.CASCADE)
-    respuesta = models.ForeignKey(Respuesta, null=True, blank=True, on_delete=models.CASCADE )
+    respuesta = models.ForeignKey(Respuesta, null=True, blank=True, on_delete=models.CASCADE)
+    completada = models.BooleanField(default=False)
 
 
 class Progreso(models.Model):
-    usuario = models.ForeignKey(Usuario, null=True, blank=True, on_delete=models.CASCADE)
-    actividad = models.ForeignKey(Actividad, null=True, blank=True, on_delete=models.CASCADE)
-    entrega = models.ForeignKey(Entrega, null=True, blank=True, on_delete=models.CASCADE)
+
+    usuario = models.ForeignKey(Usuario, null=True, unique = False, blank=True, on_delete=models.CASCADE)
+    actividad = models.ForeignKey(Actividad, null=True, unique = False, blank=True, on_delete=models.CASCADE)
+    entrega = models.ForeignKey(Entrega, null=True, unique = True, blank=True, on_delete=models.CASCADE)
+
     completado = models.BooleanField(default=False, verbose_name='¿Completado?')
 
     def __str__ (self):
