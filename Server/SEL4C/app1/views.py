@@ -26,6 +26,7 @@ from rest_framework.response import Response
 from django.conf import settings
 import json
 from django.db.models import Sum
+import requests
 
 def home(request):
     return render(request, "app1/homepage.html")
@@ -63,7 +64,20 @@ def user_login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            return JsonResponse({'message':'Usuario autenticado exitosamente', 'id':user.id})
+            api_url = 'http://localhost:8000/Usuarios/'
+            response = requests.get(api_url)
+
+            if response.status_code == 200:
+                api_data = response.json()
+                results = api_data.get('results', [])
+
+                if results:
+                    id_from_api = results[0].get('id', None)
+                    return JsonResponse({'message':'Usuario logueado exitosamente', 'id':id_from_api})
+                else:
+                    return JsonResponse({'message':'Usuario o contraseña inválidos'})
+            else:
+                return JsonResponse({'message':'Usuario o contraseña inválidos'})
         else:
             return JsonResponse({'message':'Usuario o contraseña inválidos'})
         
