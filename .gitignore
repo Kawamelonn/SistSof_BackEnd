@@ -160,3 +160,7 @@ cython_debug/
 #.idea/
 
 *.sqlite3
+
+newenv/
+
+__pycache__

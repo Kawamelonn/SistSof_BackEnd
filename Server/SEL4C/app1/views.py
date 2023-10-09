@@ -1,12 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import User, Group
+import csv
+from django.http import JsonResponse
+from django.views import View
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework import permissions
 from SEL4C.app1.serializers import UserSerializer, GroupSerializer
-from .models import Usuario
+from .models import *
 from .serializers import *
-import requests
+from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.urls import reverse
 import json
@@ -15,24 +18,40 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 import hashlib as h
 from django.contrib.auth import authenticate, login, logout
+from django.http import JsonResponse
+from rest_framework.response import Response
 
 def home(request):
     return render(request, "app1/homepage.html")
 
-def register(request):
-    return render(request, "app1/register.html")
+@csrf_exempt
+def register_user(request):
+    if request.method == 'POST':
+        nombre = request.POST.get('nombre','').strip()
+        grado = request.POST.get('grado','')
+        disciplina = request.POST.get('disciplina','').strip()
+        pais = request.POST.get('pais','').strip()
+        genero = request.POST.get('genero','').strip()
+        correo = request.POST.get('correo','').strip()
+        username = request.POST.get('username','').strip()
+        password = request.POST.get('password', '').strip()
+
+        try:
+            user = Usuario.objects.create_user(nombre=nombre, grado=grado, disciplina=disciplina, pais=pais, genero=genero, correo=correo, username=username, password=password)
+            return JsonResponse({'message':'Usuario creado exitosamente'})
+        except Exception as e:
+            return JsonResponse({'message':'No se pudo crear el usuario'})
+
+    return JsonResponse({'message':'El registro requiere una POST request'})
+
 
 def login_view(request):
     if request.method == 'POST':
-        print("entre al if")
         email = request.POST.get('correo','').strip()
         password = request.POST.get('password','').strip()
         h_password = h.sha256(password.encode()).hexdigest()
-        print(email)
-        print(h_password)
 
         user = authenticate(request, email=email, password=h_password)
-        print("Aqui estoy", user)
 
         if user is not None:
             login(request, user)
@@ -108,7 +127,60 @@ def crearUsuarioApp(request):
     else:
         return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
 
+@login_required(login_url='login')
+def institute_view(request):
+    institutes = list(Institucion.objects.all())
+    ctx = {'Instituciones': institutes}
+    return render(request, "app1/institutions.html", ctx)
 
+@login_required(login_url='login')
+def register_institution(request):
+    if request.method == 'POST':
+        nombre = request.POST['nombre']
+
+        try:
+            institution = Institucion.objects.create(nombre=nombre)
+            messages.success(request, 'Institución registrada con éxito')
+        except Exception as e:
+            messages.error(request, 'No fue posible registrar la institución' + str(e))
+        
+        return redirect('institutions')
+
+    return render(request, "app1/register-institutions.html")
+
+@login_required(login_url='login')
+def delete_institution(request, id):
+    institution = get_object_or_404(Institucion, pk=id)
+    print(institution)
+
+    if request.method == 'POST':
+        try:
+            institution.delete()
+            messages.success(request, 'Institucion borrada con éxito')
+        except Exception as e:
+            messages.error(request, 'No fue posible borrar la institución' + str(e))
+    
+    return redirect('institutions')
+
+# Esta  es la funcion para que lea el archivo 
+@method_decorator(csrf_exempt, name='dispatch')
+class ImportarDatosCSV(View):
+    def post(self, request):
+        ruta_archivo_csv = request.POST.get('ruta_archivo_csv', '')
+        if not ruta_archivo_csv:
+            return JsonResponse({'error': 'Ruta del archivo CSV no proporcionada'}, status=400)
+        try:
+            with open(ruta_archivo_csv, 'r', encoding='latin-1') as archivo_csv:
+                csv_reader = csv.DictReader(archivo_csv)
+                for row in csv_reader:
+                    nombre_pais = row['nombre']
+                    Pais.objects.get_or_create(nombre=nombre_pais)
+            return JsonResponse({'message': 'Importación exitosa'})
+        except FileNotFoundError:
+            return JsonResponse({'error': 'El archivo CSV no fue encontrado'}, status=400)
+        except Exception as e:
+            return JsonResponse({'error': str(e)}, status=500)
+        
 class UserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows users to be viewed or edited.
@@ -193,3 +265,29 @@ class RespuestaViewSet(viewsets.ModelViewSet):
     """
     queryset = Respuesta.objects.all()
     serializer_class = RespuestaSerializer
+
+class ComprobarActividadCompletada(viewsets.ModelViewSet):
+    def get(self, request, usuario_id):
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+            #actividad = Actividad.objects.get(id=actividad_id)
+            actividades = Actividad.objects.all()
+            completado = Progreso.objects.filter(usuario=usuario).exists()
+            data = {'id_actividad': actividades,
+                'completado': completado,}
+            
+            completado_por_actividad = []
+            
+            for actividad in actividades:
+                completado = Progreso.objects.filter(usuario=usuario, actividad=actividad).exists()
+                actividad_json = {
+                    "id": actividad.id,
+                    "completado": completado
+                }
+                completado_por_actividad.append(actividad_json)
+
+            return JsonResponse(completado_por_actividad, safe=False)
+        
+        except Usuario.DoesNotExist or Actividad.DoesNotExist:
+            return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
+

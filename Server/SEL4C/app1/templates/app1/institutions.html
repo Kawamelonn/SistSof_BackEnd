@@ -50,7 +50,7 @@
                 <span class="hide-menu">Usuarios</span>
               </a>
             </li>
-                        <li class="sidebar-item">
+            <li class="sidebar-item">
               <a class="sidebar-link" href="{% url 'institutions' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-cards"></i>
@@ -201,47 +201,35 @@
       <div class="container-fluid">
         <div class="card">
           <div class="card-body">
-            <h5 class="card-title fw-semibold mb-4">Lista de Usuarios</h5>
+            <h5 class="card-title fw-semibold mb-4">Lista de instituciones registradas</h5>
                 <div class="table-responsive">
-                  <table class="table text-nowrap mb-0 align-middle">
-                    <thead class="text-dark fs-4">
-                      <tr>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Nombre</h6>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Actividades Completadas</h6>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Detalles</h6>
-                        </th>
-                        <th class="border-bottom-0">
-                          <h6 class="fw-semibold mb-0">Acciones</h6>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {% for item in users%}
-                      <tr>
-                        <td class="border-bottom-0">
-                            <h6 class="fw-semibold mb-1">{{item.nombre}}</h6>
-                            <span class="fw-normal">{{item.username}}</span>                          
-                        </td>
-                        <td class="border-bottom-0">
-                          <span class="badge bg-secondary rounded-3 fw-semibold">0</span>
-                        </td>
-                        <td class="border-bottom-0">
-                          <div class="d-flex align-items-center gap-2">
-                            <a href = "{% url 'user-details' pk=item.id %}" class="btn btn-outline-success m-1">Ver</a>
-                          </div>
-                        </td>
-                        <td class="border-bottom-0">
-                          <a href = "#" class="btn btn-outline-danger m-1">Eliminar</a>
-                        </td>
-                      </tr> 
-                      {% endfor %}                 
-                    </tbody>
-                  </table>
+                    <table class="table text-nowrap mb-0 align-middle">
+                        <thead class="text-dark fs-4">
+                            <tr>
+                                <th class="border-bottom-0">
+                                    <h6 class="fw-semibold mb-0">Nombre de la Institución</h6>
+                                </th>
+                              </tr>
+                        </thead>
+                        <tbody>
+                          {% for item in Instituciones %}
+                          <tr>
+                            <td class="border-bottom-0">
+                                <h6>{{item.nombre}}</h6>   
+                                <form method="post" action="{% url 'delete-institution' id=item.id %}">
+                                  {% csrf_token %}
+                                  <td class="border-bottom-0">
+                                    <button type="submit">Eliminar</button>
+                                  </td>
+                                </form>                      
+                            </td>
+                          </tr> 
+                          {% endfor %}                 
+                        </tbody>
+                    </table>
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                  <a href = "{% url 'register-institution' %}" class="btn btn-outline-success m-1">Añadir institución</a>
                 </div>
               </div>
             </div>
