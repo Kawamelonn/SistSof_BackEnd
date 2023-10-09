@@ -17,4 +17,5 @@ urlpatterns = [
     path('dashboard/botones', views.buttons, name = "buttons"),
     path('dashboard/cards', views.cards, name = "cards"),
     path('importar-datos-csv/', ImportarDatosCSV.as_view(), name='importar_datos_csv'), # esta es la url para importarle los datos solo que tiene que ser por POSTMAN
+    path('user-login/', views.user_login_view, name='user-login'),
 ]
