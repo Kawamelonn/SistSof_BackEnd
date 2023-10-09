@@ -12,6 +12,8 @@ from .serializers import *
 from django.utils.decorators import method_decorator
 from django.contrib import messages
 from django.urls import reverse
+import json
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 import hashlib as h
@@ -89,6 +91,41 @@ def buttons(request):
 @login_required(login_url='login')
 def cards(request):
     return render(request, "app1/ui-card.html")
+
+# Función de prueba POST para crear usuarios desde la app con país e institución 
+@csrf_exempt
+def crearUsuarioApp(request):
+    if request.method == 'POST':
+        # Obtener los datos JSON del cuerpo de la solicitud
+        data = json.loads(request.body)
+        
+        pais_id = data.get('pais')
+        institucion_id = data.get('institucion')
+        
+        try:
+            pais = Pais.objects.get(id=pais_id)
+            institucion = Institucion.objects.get(id=institucion_id)
+            
+            # Crear un nuevo usuario con la institución relacionada
+            usuario = Usuario(
+                nombre=data.get('nombre'),
+                genero=data.get('genero'),
+                grado=data.get('grado'),
+                disciplina=data.get('disciplina'),
+                pais=pais,
+                institucion=institucion,
+                correo=data.get('correo'),
+                username=data.get('username'),
+                password=data.get('password')
+            )
+            
+            usuario.save()
+            
+            return JsonResponse({'mensaje': 'Usuario creado exitosamente'})
+        except Institucion.DoesNotExist:
+            return JsonResponse({'error': 'La institución con el ID proporcionado no existe'}, status=400)
+    else:
+        return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
 
 @login_required(login_url='login')
 def institute_view(request):
