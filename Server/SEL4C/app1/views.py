@@ -62,7 +62,7 @@ def user_login_view(request):
         user = authenticate(request, username=username, password=password)
 
         if user is not None:
-            return JsonResponse({'message':'Usuario autenticado exitosamente'})
+            return JsonResponse({'message':'Usuario autenticado exitosamente', 'id':user.id})
         else:
             return JsonResponse({'message':'Usuario o contraseña inválidos'})
         
