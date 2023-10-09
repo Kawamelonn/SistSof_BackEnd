@@ -35,7 +35,7 @@
               <span class="hide-menu">Home</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{% url 'dashboard' %}" aria-expanded="false">
+              <a class="sidebar-link" href="{% url 'index' %}" aria-expanded="false">
                 <span>
                   <i class="ti ti-layout-dashboard"></i>
                 </span>
@@ -48,6 +48,14 @@
                   <i class="ti ti-cards"></i>
                 </span>
                 <span class="hide-menu">Usuarios</span>
+              </a>
+            </li>
+            <li class="sidebar-item">
+              <a class="sidebar-link" href="{% url 'institutions' %}" aria-expanded="false">
+                <span>
+                  <i class="ti ti-cards"></i>
+                </span>
+                <span class="hide-menu">Instituciones</span>
               </a>
             </li>
             <li class="nav-small-cap">
@@ -99,7 +107,7 @@
               <span class="hide-menu">AUTH</span>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{% url 'logout' %}" aria-expanded="false">
+              <a class="sidebar-link" href="./authentication-login.html" aria-expanded="false">
                 <span>
                   <i class="ti ti-login"></i>
                 </span>
@@ -107,7 +115,7 @@
               </a>
             </li>
             <li class="sidebar-item">
-              <a class="sidebar-link" href="{% url 'logout' %}" aria-expanded="false">
+              <a class="sidebar-link" href="./authentication-register.html" aria-expanded="false">
                 <span>
                   <i class="ti ti-user-plus"></i>
                 </span>
@@ -302,7 +310,7 @@
             <div class="card overflow-hidden rounded-2">
               <div class="position-relative">
                 <a href="javascript:void(0)"><img src="{% static 'assets/images/autocontrol.jpg' %}" class="card-img-top rounded-0" alt="..."></a>
-                                    </div>
+              </div>
               <div class="card-body pt-3 p-4">
                 <h6 class="fw-semibold fs-4">Autocontrol</h6>
                 <br>
@@ -313,7 +321,7 @@
             <div class="card overflow-hidden rounded-2">
               <div class="position-relative">
                 <a href="javascript:void(0)"><img src="{% static 'assets/images/liderazgo.jpg' %}" class="card-img-top rounded-0" alt="..."></a>
-                                      </div>
+              </div>
               <div class="card-body pt-3 p-4">
                 <h6 class="fw-semibold fs-4">Liderazgo</h6>
                 <br>
@@ -324,7 +332,7 @@
             <div class="card overflow-hidden rounded-2">
               <div class="position-relative">
                 <a href="javascript:void(0)"><img src="{% static 'assets/images/conciencia.jpg' %}" class="card-img-top rounded-0" alt="..."></a>
-                                      </div>
+              </div>
               <div class="card-body pt-3 p-4">
                 <h6 class="fw-semibold fs-4">Conciencia y valor social</h6>
                 <br>
@@ -351,19 +359,13 @@
                   <div class="mb-3 mb-sm-0">
                     <h5 class="card-title fw-semibold">Sales Overview</h5>
                   </div>
-                  <div>
-                    <select class="form-select">
-                      <option value="1">March 2023</option>
-                      <option value="2">April 2023</option>
-                      <option value="3">May 2023</option>
-                      <option value="4">June 2023</option>
-                    </select>
-                  </div>
+
                 </div>
                 <div id="chart"></div>
               </div>
             </div>
           </div>
+
           <div class="col-lg-4">
             <div class="row">
               <div class="col-lg-12">
@@ -432,7 +434,7 @@
                   <div id="earning"></div>
                 </div>
               </div>
-            </div>
+            </div> 
           </div>
         </div>
         <div class="row">

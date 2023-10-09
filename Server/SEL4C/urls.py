@@ -15,6 +15,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
+from rest_framework.response import Response
 from django.urls import include,path
 from rest_framework import routers, permissions
 from SEL4C.app1 import views
@@ -27,10 +28,11 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'Administradores', views.AdministradorViewSet)
+router.register(r'Paises', views.PaisViewSet)
+router.register(r'Instituciones', views.InstitucionViewSet)
 router.register(r'Usuarios', views.UsuarioViewSet)
 router.register(r'Progresos', views.ProgresoViewSet)
 router.register(r'Actividades', views.ActividadViewSet)
-router.register(r'Entregas', views.EntregaViewSet)
 router.register(r'Autodiagnosticos', views.AutodiagnosticoViewSet)
 router.register(r'Preguntas', views.PreguntaViewSet)
 router.register(r'Respuesta', views.RespuestaViewSet)
@@ -50,10 +52,13 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-register/', views.register_user, name="register_user"),
     path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     path('api/schema/swagger-ui/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('api/schema/redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    path('crear_usuario/', views.crearUsuarioApp, name = "crear_usuario"),
     path('SEL4C/', include('SEL4C.app1.urls')),
+    path('cac/<int:usuario_id>/', views.ComprobarActividadCompletada.as_view({'get': 'get'}), name='comprobar_actividad_completada'),
+
 ]
