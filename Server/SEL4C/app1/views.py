@@ -32,26 +32,6 @@ def home(request):
     return render(request, "app1/homepage.html")
 
 @csrf_exempt
-def register_user(request):
-    if request.method == 'POST':
-        nombre = request.POST.get('nombre','').strip()
-        grado = request.POST.get('grado','')
-        disciplina = request.POST.get('disciplina','').strip()
-        pais = request.POST.get('pais','').strip()
-        genero = request.POST.get('genero','').strip()
-        correo = request.POST.get('correo','').strip()
-        username = request.POST.get('username','').strip()
-        password = request.POST.get('password', '').strip()
-
-        try:
-            user = Usuario.objects.create_user(nombre=nombre, grado=grado, disciplina=disciplina, pais=pais, genero=genero, correo=correo, username=username, password=password)
-            return JsonResponse({'message':'Usuario creado exitosamente'})
-        except Exception as e:
-            return JsonResponse({'message':'No se pudo crear el usuario'})
-
-    return JsonResponse({'message':'El registro requiere una POST request'})
-
-@csrf_exempt
 def user_login_view(request):
     original_auth_backends = settings.AUTHENTICATION_BACKENDS
     settings.AUTHENTICATION_BACKENDS = ['SEL4C.app1.backends.CustomUserBackend']
@@ -84,7 +64,6 @@ def user_login_view(request):
     settings.AUTHENTICATION_BACKENDS = original_auth_backends
 
     return JsonResponse({'message':'El login requiere una POST request'})
-
 
 def login_view(request):
     if request.method == 'POST':
@@ -122,6 +101,7 @@ def userDetails(request, pk):
     usuario = Usuario.objects.get(id=pk)
     questions = list(Pregunta.objects.all())
     autodiagnosticos = Autodiagnostico.objects.filter(usuario=usuario)
+    progreso = Progreso.objects.filter(usuario=usuario)
     # AUTODIAGNOSTICO INICIAL
     autoIniAuto = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Autocontrol')
     autoIniLider = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Liderazgo')
@@ -155,6 +135,7 @@ def userDetails(request, pk):
         'suma_liderazgofin': suma_liderazgofin,
         'suma_concienciafin': suma_concienciafin,
         'suma_innovacionfin': suma_innovacionfin,
+        'progreso': progreso,
     }
     
     return render(request, "app1/user-details.html", ctx)
