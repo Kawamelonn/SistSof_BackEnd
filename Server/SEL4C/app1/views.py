@@ -59,7 +59,7 @@ def user_login_view(request):
             else:
                 return JsonResponse({'message':'No error 200'})
         else:
-            return JsonResponse({'message':'Usuario o contraseña inválidos'})
+            return JsonResponse({'message':'Usuario o contraseña inválidos', 'id':0})
         
     settings.AUTHENTICATION_BACKENDS = original_auth_backends
 
@@ -345,6 +345,7 @@ class RespuestaViewSet(viewsets.ModelViewSet):
     queryset = Respuesta.objects.all()
     serializer_class = RespuestaSerializer
 
+
 class ComprobarActividadCompletada(viewsets.ModelViewSet):
     def get(self, request, usuario_id):
         try:
@@ -369,4 +370,51 @@ class ComprobarActividadCompletada(viewsets.ModelViewSet):
         
         except Usuario.DoesNotExist or Actividad.DoesNotExist:
             return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
+
+
+class ComprobarAutodiagnósticoCompletado(viewsets.ModelViewSet):
+    def get(self, request, usuario_id, autodiagnostico_id):
+        try:
+
+            usuario = Usuario.objects.get(id=usuario_id)
+            #autodiagnostico_objetoid = Autodiagnostico.objects.get(num_auto=autodiagnostico_id)
+            num_autodiagnostico = autodiagnostico_id
+            print(num_autodiagnostico)
+            print(usuario)
+            
+            pregunta_completada1 = Autodiagnostico.objects.filter(
+                num_auto = num_autodiagnostico,
+                usuario=usuario,
+                pregunta=2,
+                completada=True
+            ).exists()
+            print(pregunta_completada1)
+
+            pregunta_completada2 = Autodiagnostico.objects.filter(
+                num_auto = num_autodiagnostico+1,
+                usuario=usuario,
+                pregunta=2,
+                completada=True
+            ).exists()
+            print(pregunta_completada2)
+
+            completado_por_auto = []
+
+            data = {
+                
+                'usuario_id':usuario.id,
+                'preguntaFinalCompletada': pregunta_completada1,
+                
+            }
+            data2 = {
+                'usuario_id':usuario.id,
+                'preguntaFinalCompletada': pregunta_completada2,
+            }
+            completado_por_auto.append(data)
+            completado_por_auto.append(data2)
+
+            return JsonResponse(completado_por_auto, safe=False)
+        
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'Usuario no encontrado'}, status=status.HTTP_400_BAD_REQUEST)
 
