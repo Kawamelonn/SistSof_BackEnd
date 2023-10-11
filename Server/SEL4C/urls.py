@@ -25,8 +25,6 @@ from drf_yasg import openapi
 
 
 router = routers.DefaultRouter()
-router.register(r'users', views.UserViewSet)
-router.register(r'groups', views.GroupViewSet)
 router.register(r'Administradores', views.AdministradorViewSet)
 router.register(r'Paises', views.PaisViewSet)
 router.register(r'Instituciones', views.InstitucionViewSet)

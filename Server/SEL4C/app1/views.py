@@ -9,7 +9,6 @@ from django.views import View
 from django.db.models import Count, Q
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
-from SEL4C.app1.serializers import UserSerializer, GroupSerializer
 from .models import *
 from .serializers import *
 from django.utils.decorators import method_decorator
@@ -267,19 +266,7 @@ class SubcompetenciasAPI(APIView):
         return Response(response_data, status=status.HTTP_200_OK)
     
 
-class UserViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows users to be viewed or edited.
-    """
-    queryset  = User.objects.all().order_by('-date_joined')
-    serializer_class = UserSerializer
 
-class GroupViewSet(viewsets.ModelViewSet):
-    """
-    API endpoint that allows groups to be viewed or edited.
-    """
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
 
 class AdministradorViewSet(viewsets.ModelViewSet):
     """
