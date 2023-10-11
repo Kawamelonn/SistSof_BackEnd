@@ -1,5 +1,4 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import User, Group
 import csv
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -13,17 +12,14 @@ from .models import *
 from .serializers import *
 from django.utils.decorators import method_decorator
 from django.contrib import messages
-from django.urls import reverse
 import json
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden
 import hashlib as h
 from django.contrib.auth import authenticate, login, logout
 from django.http import JsonResponse
 from rest_framework.response import Response
 from django.conf import settings
-import json
 from django.db.models import Sum
 import requests
 
@@ -43,24 +39,19 @@ def user_login_view(request):
         Usuario = authenticate(request, username=username, password=password)
 
         if Usuario is not None:
-            api_url = f'http://localhost:8000/Usuarios/{Usuario.id}/'
-            print(api_url)
-            response = requests.get(api_url)
-
+            response = requests.get('http://localhost:8000/Usuarios/' + str(Usuario.id))
             if response.status_code == 200:
-                api_data = response.json()
-                api_id = api_data.get('id', None)
-
-                if api_id:
-                    return JsonResponse({'message':'Usuario logueado exitosamente', 'id':api_id})
-                else:
-                    return JsonResponse({'message':'No iD'})
+                user_data = response.json()
+                user_id = user_data.get('id', 0)
+                settings.AUTHENTICATION_BACKENDS = original_auth_backends
+                return JsonResponse({'message':'Login exitoso', 'id':user_id})  
             else:
-                return JsonResponse({'message':'No error 200'})
+                settings.AUTHENTICATION_BACKENDS = original_auth_backends
+
+                return JsonResponse({'message':'Error al obtener el usuario', 'id':0})
         else:
+            settings.AUTHENTICATION_BACKENDS = original_auth_backends
             return JsonResponse({'message':'Usuario o contraseña inválidos', 'id':0})
-        
-    settings.AUTHENTICATION_BACKENDS = original_auth_backends
 
     return JsonResponse({'message':'El login requiere una POST request'})
 
@@ -76,7 +67,7 @@ def login_view(request):
             login(request, user)
             return redirect('index')
         else:
-            messages.error(request, 'Correo o contraseña inválidos')
+            messages.error(request, 'Correo o contraseña inválidos')       
     
     return render(request, "app1/login.html")
 
@@ -265,9 +256,6 @@ class SubcompetenciasAPI(APIView):
 
         return Response(response_data, status=status.HTTP_200_OK)
     
-
-
-
 class AdministradorViewSet(viewsets.ModelViewSet):
     """
     API endpoint that MyModel to be viewed or edited.

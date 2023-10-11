@@ -136,12 +136,13 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTHENTICATION_BACKENDS = [
     'SEL4C.app1.backends.JSONAuthBackend',
+    'SEL4C.app1.backends.CustomUserBackend',
 ]
 
 LOGOUT_REDIRECT_URL = 'SEL4C'
 
 SESSION_COOKIE_AGE = 604800
-SESSION_COOKIE_SECURE = False
+SESSION_COOKIE_SECURE = True
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

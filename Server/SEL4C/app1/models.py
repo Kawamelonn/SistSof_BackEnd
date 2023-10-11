@@ -65,7 +65,6 @@ class Respuesta(models.Model):
     def __str__(self) -> str:
         return "{}".format(self.respuesta)
     
-    
 class Autodiagnostico(models.Model):
     OPCIONES_COMPETENCIA = [
         ('Autocontrol', 'Autocontrol'),
@@ -79,7 +78,6 @@ class Autodiagnostico(models.Model):
     respuesta = models.ForeignKey(Respuesta, null=True, blank=True, on_delete=models.CASCADE)
     competencia = models.CharField(max_length=60,choices=OPCIONES_COMPETENCIA, default='Autocontrol', verbose_name='Competencia que evalúa')
     completada = models.BooleanField(default=False)
-
 
 class Progreso(models.Model):
 
