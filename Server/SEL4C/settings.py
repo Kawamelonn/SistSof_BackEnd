@@ -144,4 +144,4 @@ SESSION_COOKIE_AGE = 604800
 SESSION_COOKIE_SECURE = False
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.joinm(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
