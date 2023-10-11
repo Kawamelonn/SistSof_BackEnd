@@ -41,10 +41,10 @@ def user_login_view(request):
         username = data.get('username','').strip()
         password = data.get('password','').strip()
 
-        user = authenticate(request, username=username, password=password)
+        Usuario = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            api_url = f'http://localhost:8000/Usuarios/{user.id}/'
+        if Usuario is not None:
+            api_url = f'http://localhost:8000/Usuarios/{Usuario.id}/'
             print(api_url)
             response = requests.get(api_url)
 

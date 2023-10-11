@@ -136,6 +136,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 AUTHENTICATION_BACKENDS = [
     'SEL4C.app1.backends.JSONAuthBackend',
+    'SEL4C.app1.backends.CustomUserBackend'
 ]
 
 LOGOUT_REDIRECT_URL = 'SEL4C'
