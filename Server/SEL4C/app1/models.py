@@ -86,7 +86,7 @@ class Progreso(models.Model):
     usuario = models.ForeignKey(Usuario, null=True, unique = False, blank=True, on_delete=models.CASCADE)
     actividad = models.ForeignKey(Actividad, null=True, unique = False, blank=True, on_delete=models.CASCADE)
     filename = models.CharField(max_length=50, null=True, blank=True, verbose_name='Título')
-    file = models.CharField(max_length=50, null=True, blank=True, verbose_name='Archivo')
+    file = models.FileField(default='', upload_to='archivos/')
     completado = models.BooleanField(default=False, verbose_name='¿Completado?')
 
     def __str__ (self):
