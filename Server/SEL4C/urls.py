@@ -55,6 +55,6 @@ urlpatterns = [
     path('crear_usuario/', views.crearUsuarioApp, name = "crear_usuario"),
     path('SEL4C/', include('SEL4C.app1.urls')),
     path('cac/<int:usuario_id>/', views.ComprobarActividadCompletada.as_view({'get': 'get'}), name='comprobar_actividad_completada'),
-    path('cauto/<int:usuario_id>/<int:autodiagnostico_id>/',views.ComprobarAutodiagnósticoCompletado.as_view({'get': 'get'}), name='comprobar_autodiagnostico_completado')
-
+    path('cauto/<int:usuario_id>/<int:autodiagnostico_id>/',views.ComprobarAutodiagnósticoCompletado.as_view({'get': 'get'}), name='comprobar_autodiagnostico_completado'),
+    path('perfil/<int:usuario_id>/', views.GetPerfil.as_view({'get': 'get'}), name = 'get_perfil'),
 ]

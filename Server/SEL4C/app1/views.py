@@ -392,4 +392,30 @@ class ComprobarAutodiagnósticoCompletado(viewsets.ModelViewSet):
         
         except Usuario.DoesNotExist:
             return JsonResponse({'error': 'Usuario no encontrado'}, status=status.HTTP_400_BAD_REQUEST)
+        
 
+class GetPerfil(viewsets.ModelViewSet):
+    def get(self, request, usuario_id):
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+            #usuario = Usuario.objects.filter(id=usuario_id)
+
+            nombre = usuario.nombre
+            correo = usuario.correo
+            username = usuario.username
+
+            data = {
+                'nombre': nombre,
+                'correo': correo,
+                'username': username,
+                }
+            
+            perfil = []
+            
+            
+            perfil.append(data)
+
+            return JsonResponse(perfil, safe=False)
+        
+        except Usuario.DoesNotExist or Actividad.DoesNotExist:
+            return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
