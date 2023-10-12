@@ -1,5 +1,4 @@
-from django.contrib import admin
-from django.urls import path, include
+from django.urls import path
 from SEL4C.app1 import views
 from SEL4C.app1.views import ImportarDatosCSV, SubcompetenciasAPI
 
