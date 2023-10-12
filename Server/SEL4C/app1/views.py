@@ -59,9 +59,9 @@ def login_view(request):
     if request.method == 'POST':
         email = request.POST.get('correo','').strip()
         password = request.POST.get('password','').strip()
-        h_password = h.sha256(password.encode()).hexdigest()
+    
 
-        user = authenticate(request, email=email, password=h_password)
+        user = authenticate(request, email=email, password=password)
 
         if user is not None:
             login(request, user)
@@ -170,6 +170,43 @@ def crearUsuarioApp(request):
             return JsonResponse({'mensaje': 'Usuario creado exitosamente'})
         except Institucion.DoesNotExist:
             return JsonResponse({'error': 'La institución con el ID proporcionado no existe'}, status=400)
+    else:
+        return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
+# Función para mandar POST para los autodiagnosticos de los usuarios desde la app    
+@csrf_exempt
+def crearAutodiagnosticoApp(request):
+    if request.method == 'POST':
+        # Obtener los datos JSON del cuerpo de la solicitud
+        data = json.loads(request.body)
+        
+        usuario_id = data.get('usuario')
+        pregunta_id = data.get('pregunta')
+        respuesta_id = data.get('respuesta')
+        
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+            pregunta = Pregunta.objects.get(id=pregunta_id)
+            respuesta = Respuesta.objects.get(id=respuesta_id)
+            
+            # Crear un nuevo usuario con la institución relacionada
+            autodiagnostico = Autodiagnostico(
+                num_auto=data.get('num_auto'),
+                usuario=usuario,
+                pregunta=pregunta,
+                respuesta=respuesta,
+                competencia=data.get('competencia'),
+                completada=data.get('completada')
+            )
+            
+            autodiagnostico.save()
+            
+            return JsonResponse({'mensaje': 'Datos mandados exitosamente'})
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'El usuario con el ID proporcionado no existe'}, status=400)
+        except Pregunta.DoesNotExist:
+            return JsonResponse({'error': 'La pregunta con el ID proporcionado no existe'}, status=400)
+        except Respuesta.DoesNotExist:
+            return JsonResponse({'error': 'La respuesta con el ID proporcionado no existe'}, status=400)
     else:
         return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
 
