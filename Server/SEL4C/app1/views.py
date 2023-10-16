@@ -55,13 +55,16 @@ def user_login_view(request):
 
     return JsonResponse({'message':'El login requiere una POST request'})
 
-def login_view(request):
+def login_view(request) :
     if request.method == 'POST':
         email = request.POST.get('correo','').strip()
         password = request.POST.get('password','').strip()
+        h_password = h.sha256(password.encode()).hexdigest()
+        print(email)
+        print(password)
     
-
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, email=email, password=h_password)
+        print(user)
 
         if user is not None:
             login(request, user)

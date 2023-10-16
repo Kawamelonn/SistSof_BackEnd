@@ -7,7 +7,7 @@ class JSONAuthBackend(ModelBackend):
     def authenticate(self, request, email=None, password=None, **kwargs):
         User = get_user_model()
 
-        json_url = 'http://localhost:8000/Administradores'
+        json_url = 'http://localhost:8000/Administradores/'
 
         try:
             response = requests.get(json_url)
