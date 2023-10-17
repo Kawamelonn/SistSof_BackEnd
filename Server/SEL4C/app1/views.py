@@ -59,11 +59,11 @@ def login_view(request) :
     if request.method == 'POST':
         email = request.POST.get('correo','').strip()
         password = request.POST.get('password','').strip()
-        h_password = h.sha256(password.encode()).hexdigest()
+       # h_password = h.sha256(password.encode()).hexdigest()
         print(email)
         print(password)
     
-        user = authenticate(request, email=email, password=h_password)
+        user = authenticate(request, email=email, password=password)
         print(user)
 
         if user is not None:
