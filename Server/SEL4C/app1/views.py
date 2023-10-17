@@ -400,7 +400,7 @@ class ComprobarAutodiagnósticoCompletado(viewsets.ModelViewSet):
             pregunta_completada1 = Autodiagnostico.objects.filter(
                 num_auto = num_autodiagnostico,
                 usuario=usuario,
-                pregunta=24,
+                pregunta=49,
                 completada=True
             ).exists()
             print(pregunta_completada1)
