@@ -42,7 +42,7 @@ def user_login_view(request):
             response = requests.get('http://localhost:8000/Usuarios/' + str(Usuario.id))
             if response.status_code == 200:
                 user_data = response.json()
-                user_id = user_data.get('id', 0)
+                user_id = Usuario.id
                 settings.AUTHENTICATION_BACKENDS = original_auth_backends
                 return JsonResponse({'message':'Login exitoso', 'id':user_id})  
             else:
@@ -59,12 +59,9 @@ def login_view(request) :
     if request.method == 'POST':
         email = request.POST.get('correo','').strip()
         password = request.POST.get('password','').strip()
-       # h_password = h.sha256(password.encode()).hexdigest()
-        print(email)
-        print(password)
+        h_password = h.sha256(password.encode()).hexdigest()
     
-        user = authenticate(request, email=email, password=password)
-        print(user)
+        user = authenticate(request, email=email, password=h_password)
 
         if user is not None:
             login(request, user)
