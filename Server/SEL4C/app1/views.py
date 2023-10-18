@@ -213,6 +213,81 @@ def crearAutodiagnosticoApp(request):
     else:
         return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
 
+# Función de desempeño en App
+@csrf_exempt
+def desempeñoApp(request, pk):
+    if request.method == 'GET':
+        try:
+            usuario = Usuario.objects.get(id=pk)
+            # AUTODIAGNOSTICO INICIAL
+            autoIniAuto = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Autocontrol')
+            autoIniLider = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Liderazgo')
+            autoIniCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Conciencia y Valor Social')
+            autoIniInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Innovación Social y Sostenibilidad Financiera')
+            autoIniSis = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Pensamiento sistémico')
+            autoIniCien = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Pensamiento científico')
+            autoIniCrit = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Pensamiento crítico')
+            autoIniInno = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Pensamiento innovador')
+            # Suma las respuestas de la competencia "Autocontrol" para el usuario
+            suma_autocontrolini = autoIniAuto.aggregate(total_autocontrolini=Sum('respuesta__respuesta'))['total_autocontrolini'] or 0
+            suma_liderazgoini = autoIniLider.aggregate(total_liderazgoini=Sum('respuesta__respuesta'))['total_liderazgoini'] or 0
+            suma_concienciaini = autoIniCon.aggregate(total_concienciaini=Sum('respuesta__respuesta'))['total_concienciaini'] or 0
+            suma_innovacionini = autoIniInn.aggregate(total_innovacionini=Sum('respuesta__respuesta'))['total_innovacionini'] or 0
+            suma_sistemicoini = autoIniSis.aggregate(total_sistemicoini=Sum('respuesta__respuesta'))['total_sistemicoini'] or 0
+            suma_cientificoini = autoIniCien.aggregate(total_cientificoini=Sum('respuesta__respuesta'))['total_cientificoini'] or 0
+            suma_criticoini = autoIniCrit.aggregate(total_criticoini=Sum('respuesta__respuesta'))['total_criticoini'] or 0
+            suma_innovadorini = autoIniInno.aggregate(total_innovadorini=Sum('respuesta__respuesta'))['total_innovadorini'] or 0
+            # AUTODIAGNOSTICO FINAL
+            autoFinAuto = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Autocontrol')
+            autoFinLider = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Liderazgo')
+            autoFinCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Conciencia y Valor Social')
+            autoFinInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Innovación Social y Sostenibilidad Financiera')
+            autoFinSis = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Pensamiento sistémico')
+            autoFinCien = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Pensamiento científico')
+            autoFinCrit = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Pensamiento crítico')
+            autoFinInno = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Pensamiento innovador')
+            # Suma las respuestas de la competencia "Autocontrol" para el usuario
+            suma_autocontrolfin = autoFinAuto.aggregate(total_autocontrolfin=Sum('respuesta__respuesta'))['total_autocontrolfin'] or 0
+            suma_liderazgofin = autoFinLider.aggregate(total_liderazgofin=Sum('respuesta__respuesta'))['total_liderazgofin'] or 0
+            suma_concienciafin = autoFinCon.aggregate(total_concienciafin=Sum('respuesta__respuesta'))['total_concienciafin'] or 0
+            suma_innovacionfin = autoFinInn.aggregate(total_innovacionfin=Sum('respuesta__respuesta'))['total_innovacionfin'] or 0
+            suma_sistemicofin = autoFinSis.aggregate(total_sistemicofin=Sum('respuesta__respuesta'))['total_sistemicofin'] or 0
+            suma_cientificofin = autoFinCien.aggregate(total_cientificofin=Sum('respuesta__respuesta'))['total_cientificofin'] or 0
+            suma_criticofin = autoFinCrit.aggregate(total_criticofin=Sum('respuesta__respuesta'))['total_criticofin'] or 0
+            suma_innovadorfin = autoFinInno.aggregate(total_innovadorfin=Sum('respuesta__respuesta'))['total_innovadorfin'] or 0
+            
+            def format_number(value):
+                rounded_value = round(value)
+                formatted_value = "{:03d}".format(rounded_value)
+                return formatted_value
+
+            ctx = {
+                'autocontrolini': format_number((suma_autocontrolini * 100) / 20),
+                'liderazgoini': format_number((suma_liderazgoini * 100) / 30),
+                'concienciaini': format_number((suma_concienciaini * 100) / 35),
+                'innovacionini': format_number((suma_innovacionini * 100) / 35),
+                'sistemicoini': format_number((suma_sistemicoini * 100) / 30),
+                'cientificoini': format_number((suma_cientificoini * 100) / 35),
+                'criticoini': format_number((suma_criticoini * 100) / 30),
+                'innovadorini': format_number((suma_innovadorini * 100) / 30),
+
+                'autocontrolfin': format_number((suma_autocontrolfin * 100) / 20),
+                'liderazgofin': format_number((suma_liderazgofin * 100) / 30),
+                'concienciafin': format_number((suma_concienciafin * 100) / 35),
+                'innovacionfin': format_number((suma_innovacionfin * 100) / 35),
+                'sistemicofin': format_number((suma_sistemicofin * 100) / 30),
+                'cientificofin': format_number((suma_cientificofin * 100) / 35),
+                'criticofin': format_number((suma_criticofin * 100) / 30),
+                'innovadorfin': format_number((suma_innovadorfin * 100) / 30),
+            }
+            
+            return JsonResponse(ctx)
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'El usuario con el ID proporcionado no existe'}, status=400)
+
+    else:
+        return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
+
 @login_required(login_url='login')
 def institute_view(request):
     institutes = list(Institucion.objects.all())
@@ -400,7 +475,7 @@ class ComprobarAutodiagnósticoCompletado(viewsets.ModelViewSet):
             pregunta_completada1 = Autodiagnostico.objects.filter(
                 num_auto = num_autodiagnostico,
                 usuario=usuario,
-                pregunta=49,
+                pregunta=24,
                 completada=True
             ).exists()
             print(pregunta_completada1)
