@@ -2,6 +2,7 @@ from typing import Any
 from django.contrib.auth.backends import ModelBackend
 from django.contrib.auth import get_user_model
 import requests
+from .models import Usuario
 
 class JSONAuthBackend(ModelBackend):
     def authenticate(self, request, email=None, password=None, **kwargs):
@@ -24,7 +25,7 @@ class JSONAuthBackend(ModelBackend):
                 return user
         return None
 
-class CustomUserBackend(ModelBackend):
+""" class CustomUserBackend(ModelBackend):
     def authenticate(self, request, username=None, password=None, **kwargs):
         User = get_user_model()
 
@@ -43,4 +44,14 @@ class CustomUserBackend(ModelBackend):
             if user_data.get('username') == username and user_data.get('password') == password:
                 user, created = User.objects.get_or_create(username=username)
                 return user
-        return None
+        return None """
+
+class CustomUserBackend(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            user = Usuario.objects.get(username=username)
+
+            if user.password == password:
+                return user
+        except Usuario.DoesNotExist:
+            return None
