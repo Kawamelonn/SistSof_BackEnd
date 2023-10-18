@@ -139,6 +139,7 @@ AUTHENTICATION_BACKENDS = [
     'SEL4C.app1.backends.CustomUserBackend',
 ]
 
+LOGIN_REDIRECT_URL = 'SEL4C/dashboard'
 LOGOUT_REDIRECT_URL = 'SEL4C'
 
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'
