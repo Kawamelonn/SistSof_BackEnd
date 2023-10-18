@@ -531,3 +531,37 @@ class GetPerfil(viewsets.ModelViewSet):
         
         except Usuario.DoesNotExist or Actividad.DoesNotExist:
             return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
+        
+        # Función para usuario progresos 
+@csrf_exempt
+def crearProgreso(request):
+    if request.method == 'POST':
+        # Obtener los datos JSON del cuerpo de la solicitud
+        data = json.loads(request.body)
+        
+        usuario_id = data.get('usuario')
+        actividad_id = data.get('actividad')
+        
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+            actividad = Actividad.objects.get(id=actividad_id)
+            
+            # Crear un nuevo usuario con la institución relacionada
+            progreso = Progreso(
+                usuario = usuario,
+                actividad = actividad,
+                filename = data.get('filename'),
+                file = data.get('file'),
+                completado = data.get('completado')
+            )
+            
+            progreso.save()
+            
+            return JsonResponse({'mensaje': 'Progreso creado exitosamente'})
+        except Usuario.DoesNotExist:
+            return JsonResponse({'error': 'El Usuario proporcionado no existe'}, status=400)
+        except Actividad.DoesNotExist:
+            return JsonResponse({'error': 'La actividad proporcionada no existe'}, status=400)
+        
+    else:
+        return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
