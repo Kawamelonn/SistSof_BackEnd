@@ -9,6 +9,8 @@ from django.db.models import Count, Q
 from rest_framework import viewsets
 from django.views.decorators.csrf import csrf_exempt
 from .models import *
+from django.core.files.storage import FileSystemStorage
+import os
 from .serializers import *
 from django.utils.decorators import method_decorator
 from django.contrib import messages
@@ -71,22 +73,22 @@ def login_view(request) :
     
     return render(request, "app1/login.html")
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def logout_view(request):
     logout(request)
     return redirect('http://localhost:8000/SEL4C/')
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def dashboard(request):
     return render(request, "app1/index.html")
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def usersList(request):
     users = list(Usuario.objects.all())
     ctx = {'users': users}
     return render(request, "app1/users-list.html", ctx)
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def userDetails(request, pk):
     usuario = Usuario.objects.get(id=pk)
     questions = list(Pregunta.objects.all())
@@ -130,11 +132,11 @@ def userDetails(request, pk):
     
     return render(request, "app1/user-details.html", ctx)
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def buttons(request):
     return render(request, "app1/ui-buttons.html")
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def cards(request):
     return render(request, "app1/ui-card.html")
 
@@ -532,27 +534,30 @@ class GetPerfil(viewsets.ModelViewSet):
         except Usuario.DoesNotExist or Actividad.DoesNotExist:
             return Response({'error': 'Usuario o actividad no encontrados'}, status=400)
         
-        # Función para usuario progresos 
+# Función para usuario progresos 
 @csrf_exempt
 def crearProgreso(request):
-    if request.method == 'POST':
-        # Obtener los datos JSON del cuerpo de la solicitud
-        data = json.loads(request.body)
-        
-        usuario_id = data.get('usuario')
-        actividad_id = data.get('actividad')
-        
+    if request.method == 'POST' and request.FILES['file']:
+        usuario =(request.POST['usuario'])
+        actividad=(request.POST['actividad'])
+        filename =(request.POST['filename'])
+        file =request.FILES['file']
+        completado =(request.POST['completado'])
+        fs = FileSystemStorage()
+        path = os.path.join(fs.location, usuario,actividad, filename, file.name)
+        filename = fs.save(path, file)
+        uploaded_file_url = fs.url(filename)
+       
         try:
-            usuario = Usuario.objects.get(id=usuario_id)
-            actividad = Actividad.objects.get(id=actividad_id)
-            
-            # Crear un nuevo usuario con la institución relacionada
+            usuario = Usuario.objects.get(id=usuario)
+            actividad = Actividad.objects.get(id=actividad)
+
             progreso = Progreso(
                 usuario = usuario,
                 actividad = actividad,
-                filename = data.get('filename'),
-                file = data.get('file'),
-                completado = data.get('completado')
+                filename = filename,
+                file = file,
+                completado = completado
             )
             
             progreso.save()
@@ -562,6 +567,5 @@ def crearProgreso(request):
             return JsonResponse({'error': 'El Usuario proporcionado no existe'}, status=400)
         except Actividad.DoesNotExist:
             return JsonResponse({'error': 'La actividad proporcionada no existe'}, status=400)
-        
     else:
         return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
