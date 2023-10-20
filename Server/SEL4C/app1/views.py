@@ -84,7 +84,19 @@ def dashboard(request):
 
 @login_required(login_url='login')
 def usersList(request):
-    users = list(Usuario.objects.all())
+    # Obtén los datos de la API de actividades
+    response = ActividadesCompletadasPorUsuario.as_view()(request)
+    data = response.data  # Esto contiene los datos de actividades completadas
+
+    users = Usuario.objects.all()
+
+    # Combina los datos de usuarios con los datos de actividades
+    for user in users:
+        for item in data:
+            if user.id == item['usuario']:
+                user.actividades_completadas = item['actividades_completadas']
+                break
+
     ctx = {'users': users}
     return render(request, "app1/users-list.html", ctx)
 
@@ -569,3 +581,15 @@ def crearProgreso(request):
             return JsonResponse({'error': 'La actividad proporcionada no existe'}, status=400)
     else:
         return JsonResponse({'error': 'Solicitud no permitida'}, status=405)
+    
+class ActividadesCompletadasPorUsuario(APIView):
+    def get(self, request):
+        users = Usuario.objects.all()
+        response_data = []
+
+        for user in users:
+            actividades_completadas = Progreso.objects.filter(usuario=user, completado=True).count()
+            data = {'usuario': user.id, 'actividades_completadas': actividades_completadas}
+            response_data.append(data)
+
+        return Response(response_data)

@@ -5,7 +5,7 @@ import requests
 from .models import Usuario, Administrador
 
 class JSONAuthBackend(ModelBackend):
-    def authentication(self, request, email=None, password=None, **kwargs):
+    def authenticate(self, request, email=None, password=None, **kwargs):
         User = get_user_model()
 
         json_url = 'http://localhost:8000/Administradores/'

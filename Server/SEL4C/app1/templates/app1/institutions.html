@@ -78,15 +78,13 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link nav-icon-hover" href="javascript:void(0)">
-                <i class="ti ti-bell-ringing"></i>
-                <div class="notification bg-primary rounded-circle"></div>
+
               </a>
             </li>
           </ul>
           <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
-              <a href="https://adminmart.com/product/modernize-free-bootstrap-admin-dashboard/" target="_blank" class="btn btn-primary">Download Free</a>
+
               <li class="nav-item dropdown">
                 <a class="nav-link nav-icon-hover" href="javascript:void(0)" id="drop2" data-bs-toggle="dropdown"
                   aria-expanded="false">
@@ -141,7 +139,7 @@
                                 <form method="post" action="{% url 'delete-institution' id=item.id %}">
                                   {% csrf_token %}
                                   <td class="border-bottom-0">
-                                    <button type="submit">Eliminar</button>
+                                    <button type="submit", class="btn btn-outline-danger m-1">Eliminar</button>
                                   </td>
                                 </form>                      
                             </td>
