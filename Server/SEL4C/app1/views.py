@@ -77,9 +77,9 @@ def login_view(request) :
 
 def logout_view(request):
     logout(request)
-    return redirect('http://localhost:8000/SEL4C/')
+    return redirect('http://0.0.0.0:8000/SEL4C/')
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def dashboard(request):
     return render(request, "app1/index.html")
 
