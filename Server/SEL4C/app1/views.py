@@ -59,7 +59,6 @@ def user_login_view(request):
 
     return JsonResponse({'message':'El login requiere una POST request'})
 
-@csrf_exempt
 def login_view(request) :
     if request.method == 'POST':
         email = request.POST.get('correo','').strip()
@@ -76,16 +75,15 @@ def login_view(request) :
     
     return render(request, "app1/login.html")
 
-@login_required(login_url='login')
 def logout_view(request):
     logout(request)
     return redirect('http://localhost:8000/SEL4C/')
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def dashboard(request):
     return render(request, "app1/index.html")
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def usersList(request):
     # Obtén los datos de la API de actividades
     response = ActividadesCompletadasPorUsuario.as_view()(request)
@@ -103,7 +101,7 @@ def usersList(request):
     ctx = {'users': users}
     return render(request, "app1/users-list.html", ctx)
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def userDetails(request, pk):
     usuario = Usuario.objects.get(id=pk)
     questions = list(Pregunta.objects.all())
@@ -147,11 +145,11 @@ def userDetails(request, pk):
     
     return render(request, "app1/user-details.html", ctx)
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def buttons(request):
     return render(request, "app1/ui-buttons.html")
 
-@login_required(login_url='login')
+#@login_required(login_url='login')
 def cards(request):
     return render(request, "app1/ui-card.html")
 
