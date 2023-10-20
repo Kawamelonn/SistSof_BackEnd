@@ -110,8 +110,8 @@ def userDetails(request, pk):
     # AUTODIAGNOSTICO INICIAL
     autoIniAuto = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Autocontrol')
     autoIniLider = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Liderazgo')
-    autoIniCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Conciencia y valor social')
-    autoIniInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Innovación social y sostenibilidad financiera')
+    autoIniCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Conciencia y Valor Social')
+    autoIniInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=1, competencia='Innovación Social y Sostenibilidad Financiera')
     # Suma las respuestas de la competencia "Autocontrol" para el usuario
     suma_autocontrolini = autoIniAuto.aggregate(total_autocontrolini=Sum('respuesta__respuesta'))['total_autocontrolini'] or 0
     suma_liderazgoini = autoIniLider.aggregate(total_liderazgoini=Sum('respuesta__respuesta'))['total_liderazgoini'] or 0
@@ -120,8 +120,8 @@ def userDetails(request, pk):
     # AUTODIAGNOSTICO FINAL
     autoFinAuto = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Autocontrol')
     autoFinLider = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Liderazgo')
-    autoFinCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Conciencia y valor social')
-    autoFinInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Innovación social y sostenibilidad financiera')
+    autoFinCon = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Conciencia y Valor Social')
+    autoFinInn = Autodiagnostico.objects.filter(usuario=usuario, num_auto=2, competencia='Innovación Social y Sostenibilidad Financiera')
     # Suma las respuestas de la competencia "Autocontrol" para el usuario
     suma_autocontrolfin = autoFinAuto.aggregate(total_autocontrolfin=Sum('respuesta__respuesta'))['total_autocontrolfin'] or 0
     suma_liderazgofin = autoFinLider.aggregate(total_liderazgofin=Sum('respuesta__respuesta'))['total_liderazgofin'] or 0
