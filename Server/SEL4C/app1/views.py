@@ -37,6 +37,8 @@ def user_login_view(request):
         data = json.loads(request.body.decode('utf-8'))
         username = data.get('username','').strip()
         password = data.get('password','').strip()
+        h_password = h.sha256(password.encode()).hexdigest()
+
 
         Usuario = authenticate(request, username=username, password=password)
 
@@ -57,17 +59,18 @@ def user_login_view(request):
 
     return JsonResponse({'message':'El login requiere una POST request'})
 
+@csrf_exempt
 def login_view(request) :
     if request.method == 'POST':
         email = request.POST.get('correo','').strip()
         password = request.POST.get('password','').strip()
-        #h_password = h.sha256(password.encode()).hexdigest()
+        h_password = h.sha256(password.encode()).hexdigest()
     
-        user = authenticate(request, email=email, password=password)
+        user = authenticate(request, email=email, password=h_password)
 
         if user is not None:
             login(request, user)
-            return redirect('index')
+            return render(request, 'app1/index.html')
         else:
             messages.error(request, 'Correo o contraseña inválidos')       
     
@@ -176,7 +179,7 @@ def crearUsuarioApp(request):
                 institucion=institucion,
                 correo=data.get('correo'),
                 username=data.get('username'),
-                password=data.get('password')
+                password=h.sha256((data.get('password')).encode()).hexdigest()
             )
             
             usuario.save()

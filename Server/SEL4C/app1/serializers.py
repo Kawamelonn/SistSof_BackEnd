@@ -11,8 +11,7 @@ class AdministradorSerializer(serializers.HyperlinkedModelSerializer):
         fields = ['correo', 'password']
     
     def create(self, validated_data):
-        #password = h.sha256(validated_data['password'].encode()).hexdigest()
-        password = validated_data['password']
+        password = h.sha256(validated_data['password'].encode()).hexdigest()
         adminstrador_instance = Administrador.objects.create(
             correo=validated_data['correo'],
             password = password,

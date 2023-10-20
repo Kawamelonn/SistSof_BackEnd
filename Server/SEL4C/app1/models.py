@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser
+from django.utils import timezone
 # Create your models here.
 
 class Actividad(models.Model):
@@ -92,8 +92,15 @@ class Progreso(models.Model):
         return "{}".format(self.usuario)
 
 class Administrador(models.Model):
+    username = models.CharField(max_length=50, null=True, unique=True, blank=True, verbose_name='Nombre de Usuario')
     correo = models.EmailField(default="admin@example.com", unique = True, max_length=50, verbose_name="Correo")
     password = models.CharField(max_length=50, unique = True, verbose_name='Contraseña')
+    last_login = models.DateTimeField(default=timezone.now, verbose_name='Last Login')
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.username = str(Administrador.objects.count() + 1)
+        super().save(*args, **kwargs)
 
     def __str__ (self):
         return "{}".format(self.correo)
