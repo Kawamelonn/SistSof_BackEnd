@@ -40,7 +40,7 @@ def user_login_view(request):
         h_password = h.sha256(password.encode()).hexdigest()
 
 
-        Usuario = authenticate(request, username=username, password=password)
+        Usuario = authenticate(request, username=username, password=h_password)
 
         if Usuario is not None:
             response = requests.get('http://localhost:8000/Usuarios/' + str(Usuario.id))
