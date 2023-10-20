@@ -594,3 +594,28 @@ class ActividadesCompletadasPorUsuario(APIView):
             response_data.append(data)
 
         return Response(response_data)
+    
+class perfilUpdateEditar(APIView):
+    @csrf_exempt
+    def put(self, request, usuario_id):
+        try:
+            usuario = Usuario.objects.get(id=usuario_id)
+
+            # Obtén los datos del cuerpo de la solicitud (request body)
+            nombre = request.data.get('nombre')
+            correo = request.data.get('correo')
+            username = request.data.get('username')
+
+            if nombre is not None:
+                usuario.nombre = nombre
+            if correo is not None:
+                usuario.correo = correo
+            if username is not None:
+                usuario.username = username
+
+            usuario.save()  # Guarda la instancia actualizada en la base de datos
+
+            return Response({'message': 'Perfil actualizado correctamente'}, status=status.HTTP_200_OK)
+
+        except Usuario.DoesNotExist:
+            return Response({'error': 'Usuario no encontrado'}, status=status.HTTP_404_NOT_FOUND)

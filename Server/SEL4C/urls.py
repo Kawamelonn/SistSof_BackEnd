@@ -60,4 +60,5 @@ urlpatterns = [
     path('cauto/<int:usuario_id>/<int:autodiagnostico_id>/',views.ComprobarAutodiagnósticoCompletado.as_view({'get': 'get'}), name='comprobar_autodiagnostico_completado'),
     path('perfil/<int:usuario_id>/', views.GetPerfil.as_view({'get': 'get'}), name = 'get_perfil'),
     path('crear_progreso/', views.crearProgreso, name = "crear_progreso"),
+    path('actualizar-perfil/<int:usuario_id>/', views.perfilUpdateEditar.as_view(), name='actualizar_perfil'),
 ]
